@@ -435,5 +435,6 @@
 .like-note{ font-size: 12px; color: var(--grey-dim); }
 
 /* LOGO MARK */
-.logo{ display:flex; align-items:center; gap:8px; }
+.logo{ display:flex; align-items:center; gap:8px; cursor:pointer; transition: opacity .2s ease; }
+.logo:hover{ opacity: 0.75; }
 .logo-mark{ width: 30px; height: 30px; min-width: 30px; display:block; object-fit: contain; }
