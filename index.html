@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mav — Senior Data Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="images/logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><img src="images/logo.svg" alt="" class="logo-mark">Ahmad Ebraheem</div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#writing">Writing</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="eyebrow">Senior Data Engineer · Berlin</div>
+      <h1>I build data systems that <span class="accent">survive contact</span> with production.</h1>
+      <p class="lede">Six years turning messy pipelines into audit-ready, executive-facing systems — across fintech, telecom, and financial services. Currently based in Berlin.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">See the work</a>
+        <a href="#" class="btn-ghost">Download résumé</a>
+      </div>
+    </div>
+    <div class="photo-frame hero-photo">
+      <img src="images/hero.png" alt="Portrait">
+    </div>
+  </div>
+</section>
+
+<div class="logos">
+  <div class="wrap">
+    <div class="label">Worked with</div>
+    <div class="logo-row">
+      <span>AT&T</span>
+      <span>Virgin Media</span>
+      <span>O2</span>
+      <span>Accenture</span>
+      <span>Concentrix</span>
+      <span>Afiniti</span>
+      <span>Techlogix</span>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Selected work</div>
+      <h2>Dummy project title one</h2>
+      <p>Placeholder description — swap this section head copy for whatever framing you want later.</p>
+    </div>
+
+    <div class="work-grid">
+      <div class="work-card">
+        <div>
+          <div class="wc-top">
+            <h3>Medallion ETL rebuild</h3>
+            <span class="wc-company">AT&T / VIRGIN MEDIA</span>
+          </div>
+          <p>Dummy text — rebuilt the FCR reporting pipeline on dbt with custom Python data quality checks, replacing a brittle manual process.</p>
+        </div>
+        <div class="wc-result">1hr<span>from 1 day</span></div>
+      </div>
+
+      <div class="work-card">
+        <div>
+          <div class="wc-top">
+            <h3>Basel III / OFSAA reporting</h3>
+            <span class="wc-company">TECHLOGIX</span>
+          </div>
+          <p>Dummy text — built regulatory reporting pipelines with audit-ready lineage for financial services compliance.</p>
+        </div>
+        <div class="wc-result">100%<span>audit pass rate</span></div>
+      </div>
+
+      <div class="work-card">
+        <div>
+          <div class="wc-top">
+            <h3>Dummy project title three</h3>
+            <span class="wc-company">DUMMY COMPANY</span>
+          </div>
+          <p>Dummy text — placeholder description for a third project. Swap for real copy later.</p>
+        </div>
+        <div class="wc-result">00%<span>dummy metric</span></div>
+      </div>
+    </div>
+
+    <div class="pipeline-block">
+      <div class="eyebrow" style="margin-bottom:16px;">Signature — actual pipeline, toggled live</div>
+      <div class="pipeline-toggle">
+        <button class="pt-btn active" data-stage="0">Raw ingest</button>
+        <button class="pt-btn" data-stage="1">Bronze</button>
+        <button class="pt-btn" data-stage="2">Silver</button>
+        <button class="pt-btn" data-stage="3">Gold</button>
+      </div>
+      <div class="pipeline-stages">
+        <div class="stage on" data-idx="0">
+          <div class="stage-label">Step 01</div>
+          <div class="stage-name">Raw ingest</div>
+          <div class="stage-meta">Dummy: source dumps, unvalidated</div>
+        </div>
+        <div class="stage-arrow">→</div>
+        <div class="stage" data-idx="1">
+          <div class="stage-label">Step 02</div>
+          <div class="stage-name">Bronze</div>
+          <div class="stage-meta">Dummy: schema applied, deduped</div>
+        </div>
+        <div class="stage-arrow">→</div>
+        <div class="stage" data-idx="2">
+          <div class="stage-label">Step 03</div>
+          <div class="stage-name">Silver</div>
+          <div class="stage-meta">Dummy: quality checks, joins</div>
+        </div>
+        <div class="stage-arrow">→</div>
+        <div class="stage" data-idx="3">
+          <div class="stage-label">Step 04</div>
+          <div class="stage-name">Gold</div>
+          <div class="stage-meta">Dummy: exec-ready aggregates</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="writing">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Writing</div>
+      <h2>Notes from the pipeline</h2>
+      <p>Dummy blog index — placeholder posts, real ones later.</p>
+    </div>
+    <div class="log-table">
+      <a class="log-row" href="writing/post-1.html">
+        <div class="log-date">2026.06.12</div>
+        <div class="log-title">DuckDB vs Athena — dummy title placeholder</div>
+        <div class="log-time">6 min</div>
+        <div class="log-tag">Data Eng</div>
+      </a>
+      <a class="log-row" href="writing/post-2.html">
+        <div class="log-date">2026.05.03</div>
+        <div class="log-title">Dummy post title two — placeholder</div>
+        <div class="log-time">9 min</div>
+        <div class="log-tag">ML</div>
+      </a>
+      <a class="log-row" href="writing/post-3.html">
+        <div class="log-date">2026.03.21</div>
+        <div class="log-title">Dummy post about Snowflake vs BigQuery</div>
+        <div class="log-time">5 min</div>
+        <div class="log-tag">Snowflake</div>
+      </a>
+      <a class="log-row" href="writing/post-4.html">
+        <div class="log-date">2026.02.09</div>
+        <div class="log-title">Dummy post: what Basel III taught me about pipelines</div>
+        <div class="log-time">7 min</div>
+        <div class="log-tag">Fintech</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">About</div>
+      <h2>Dummy bio heading</h2>
+    </div>
+    <div class="about-grid">
+      <div class="photo-frame about-photo">
+        <img src="images/about.png" alt="Portrait">
+      </div>
+      <div class="about-bio">
+        <p>Dummy paragraph one — placeholder bio text about background, move to Berlin, current MSc at Georgia Tech, etc. Swap for real copy later.</p>
+        <p>Dummy paragraph two — placeholder text about approach to engineering, what you care about, how you think about tradeoffs.</p>
+        <p>Dummy paragraph three — placeholder closing line, personality, what you're looking for next.</p>
+      </div>
+      <div class="interests-grid">
+        <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 1</div></div>
+        <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 2</div></div>
+        <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 3</div></div>
+        <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 4</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact" style="padding-top:0;">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Dummy CTA heading</h2>
+      <p>Dummy subline — placeholder for a line about being open to roles in Berlin.</p>
+      <div class="contact-links">
+        <a href="#" class="btn-primary">Email me</a>
+        <a href="#" class="btn-ghost">LinkedIn</a>
+        <a href="#" class="btn-ghost">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 — dummy footer text</div>
+    <div class="foot-links">
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.pt-btn');
+  const stages = document.querySelectorAll('.stage');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const idx = btn.dataset.stage;
+      stages.forEach(s => {
+        s.classList.toggle('on', s.dataset.idx === idx);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
