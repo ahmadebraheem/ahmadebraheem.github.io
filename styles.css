@@ -402,13 +402,14 @@
     .hero .wrap{ grid-template-columns: 1fr; }
     .hero-photo{ order:-1; max-width: 260px; margin: 0 auto 20px; aspect-ratio: 4/5; }
     .about-grid{ grid-template-columns: 1fr; }
-    .about-side{ flex-direction: row; align-items: flex-start; flex-wrap: wrap; }
-    .about-photo{ max-width: 140px; }
+    .about-side{ display: contents; }
+    .about-photo{ max-width: 160px; order: 1; }
+    .about-bio{ order: 2; }
+    .interests-grid{ order: 3; grid-template-columns: 1fr 1fr; width: 100%; }
     .work-card{ grid-template-columns: 1fr; }
     .wc-result{ text-align:left; }
     .log-row{ grid-template-columns: 80px 1fr; }
     .log-time, .log-tag{ display:none; }
-    .interests-grid{ grid-template-columns: 1fr 1fr; flex: 1; min-width: 160px; }
     .pipeline-block{ padding: 24px 20px; }
     .work-card{ padding: 24px 20px; }
   }
