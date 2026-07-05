@@ -21,6 +21,15 @@
       <a href="/#about">About</a>
       <a href="/#contact" class="nav-cta">Get in touch</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="/#work">Work</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Get in touch</a>
   </div>
 </nav>
 
@@ -37,20 +46,16 @@
       </div>
     </div>
 
+    <div class="photo-frame post-cover">
+      <img src="../../images/post-4-cover.jpg" alt="">
+    </div>
+
     <div class="post-body">
       <p>Dummy paragraph one — placeholder body copy for this post. Swap for the real writeup later.</p>
       <p>Dummy paragraph two — more placeholder text, just here to show layout and line length at real reading width.</p>
       <h2>Dummy subheading</h2>
       <p>Dummy paragraph three — placeholder text under a subheading, to test how section breaks look in the post body.</p>
       <p>Dummy paragraph four — closing placeholder paragraph.</p>
-    </div>
-
-    <div class="like-bar">
-      <button id="likeBtn" class="like-btn">
-        <span id="likeIcon">♡</span>
-        <span id="likeCount">0</span> likes
-      </button>
-      <span class="like-note">Demo like button (local only) — Giscus below adds real reactions once configured.</span>
     </div>
 
     <div class="comments">
@@ -91,29 +96,20 @@
 </footer>
 
 <script>
-  const LIKE_KEY = 'likes_post-4';
-  const likeBtn = document.getElementById('likeBtn');
-  const likeIcon = document.getElementById('likeIcon');
-  const likeCount = document.getElementById('likeCount');
-
-  function getLikeState(){
-    try{ return JSON.parse(localStorage.getItem(LIKE_KEY)) || { count: 0, liked: false }; }
-    catch(e){ return { count: 0, liked: false }; }
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open');
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+      });
+    });
   }
-  function renderLike(){
-    const state = getLikeState();
-    likeCount.textContent = state.count;
-    likeIcon.textContent = state.liked ? '♥' : '♡';
-    likeBtn.classList.toggle('liked', state.liked);
-  }
-  likeBtn.addEventListener('click', () => {
-    const state = getLikeState();
-    state.liked = !state.liked;
-    state.count = Math.max(0, state.count + (state.liked ? 1 : -1));
-    localStorage.setItem(LIKE_KEY, JSON.stringify(state));
-    renderLike();
-  });
-  renderLike();
 </script>
 
 </body>

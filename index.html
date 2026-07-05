@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ahmad Ebraheem</title>
+<title>Mav — Senior Data Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,18 +21,29 @@
       <a href="#about">About</a>
       <a href="#contact" class="nav-cta">Get in touch</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="#work">Work</a>
+    <a href="#writing">Writing</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
 </nav>
 
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="eyebrow">Data Engineer · Berlin</div>
+      <div class="eyebrow">Senior Data Engineer · Berlin</div>
       <h1>I build data systems that <span class="accent">survive contact</span> with production.</h1>
-      <p class="lede">Six years turning messy pipelines into audit-ready, executive-facing systems across fintech, telecom, and financial services. Currently based in Berlin.</p>
+      <p class="lede">Six years turning messy pipelines into audit-ready, executive-facing systems — across fintech, telecom, and financial services. Currently based in Berlin.</p>
       <div class="hero-actions">
         <a href="#work" class="btn-primary">See the work</a>
+        <a href="#" class="btn-ghost">Download résumé</a>
       </div>
     </div>
     <div class="photo-frame hero-photo">
@@ -60,8 +71,8 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">Selected work</div>
-      <h2>Built. Shipped. Measured.</h2>
-      <p>A few problems I took from messy first draft to something that actually ran.</p>
+      <h2>Dummy project title one</h2>
+      <p>Placeholder description — swap this section head copy for whatever framing you want later.</p>
     </div>
 
     <div class="work-grid">
@@ -69,38 +80,38 @@
         <div>
           <div class="wc-top">
             <h3>Medallion ETL rebuild</h3>
-            <span class="wc-company">AT&T / Afiniti</span>
+            <span class="wc-company">AT&T / VIRGIN MEDIA</span>
           </div>
-          <p>Built an end-to-end ETL pipeline on a Medallion Architecture (Bronze/Silver/Gold), sourcing data from Snowflake, with custom data quality checks and centralized pipeline logging, cutting FCR report delivery massively.</p>
+          <p>Dummy text — rebuilt the FCR reporting pipeline on dbt with custom Python data quality checks, replacing a brittle manual process.</p>
         </div>
-        <div class="wc-result">1 hr<span>from 1 day</span></div>
+        <div class="wc-result">1hr<span>from 1 day</span></div>
       </div>
 
       <div class="work-card">
         <div>
           <div class="wc-top">
-            <h3>Genesys redesign for downstream AI call routing</h3>
-            <span class="wc-company">O2 / Afiniti</span>
+            <h3>Basel III / OFSAA reporting</h3>
+            <span class="wc-company">TECHLOGIX</span>
           </div>
-          <p>Redesigned O2's Genesys Infomart data warehouse, consolidating star schema tables into a unified calls feed for Afiniti's AI-based call routing, with zero disruption to client revenue.</p>
+          <p>Dummy text — built regulatory reporting pipelines with audit-ready lineage for financial services compliance.</p>
         </div>
-        <div class="wc-result">100%<span>revenue preserved</span></div>
+        <div class="wc-result">100%<span>audit pass rate</span></div>
       </div>
 
       <div class="work-card">
         <div>
           <div class="wc-top">
-            <h3>OFSAA ALM & Basel Deployment</h3>
-            <span class="wc-company">Techlogix</span>
+            <h3>Dummy project title three</h3>
+            <span class="wc-company">DUMMY COMPANY</span>
           </div>
-          <p>Deployed ALM and Basel III Capital Adequacy Rsatio modules in Oracle Financial Services Analytical Applications, with custom reporting and legacy ETL optimization that massively cut processing time.</p>
+          <p>Dummy text — placeholder description for a third project. Swap for real copy later.</p>
         </div>
-        <div class="wc-result">10 mins<span>from 24 hrs</span></div>
+        <div class="wc-result">00%<span>dummy metric</span></div>
       </div>
     </div>
 
     <div class="pipeline-block">
-      <div class="eyebrow" style="margin-bottom:16px;">Medallion architecture, explained live</div>
+      <div class="eyebrow" style="margin-bottom:16px;">Signature — actual pipeline, toggled live</div>
       <div class="pipeline-toggle">
         <button class="pt-btn active" data-stage="0">Raw ingest</button>
         <button class="pt-btn" data-stage="1">Bronze</button>
@@ -111,25 +122,25 @@
         <div class="stage on" data-idx="0">
           <div class="stage-label">Step 01</div>
           <div class="stage-name">Raw ingest</div>
-          <div class="stage-meta">Source dumps, unvalidated</div>
+          <div class="stage-meta">Dummy: source dumps, unvalidated</div>
         </div>
         <div class="stage-arrow">→</div>
         <div class="stage" data-idx="1">
           <div class="stage-label">Step 02</div>
           <div class="stage-name">Bronze</div>
-          <div class="stage-meta">Schema applied, deduped</div>
+          <div class="stage-meta">Dummy: schema applied, deduped</div>
         </div>
         <div class="stage-arrow">→</div>
         <div class="stage" data-idx="2">
           <div class="stage-label">Step 03</div>
           <div class="stage-name">Silver</div>
-          <div class="stage-meta">Quality checks, joins</div>
+          <div class="stage-meta">Dummy: quality checks, joins</div>
         </div>
         <div class="stage-arrow">→</div>
         <div class="stage" data-idx="3">
           <div class="stage-label">Step 04</div>
           <div class="stage-name">Gold</div>
-          <div class="stage-meta">Exec-ready aggregates</div>
+          <div class="stage-meta">Dummy: exec-ready aggregates</div>
         </div>
       </div>
     </div>
@@ -140,21 +151,33 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">Writing</div>
-      <h2>My thoughts</h2>
-      <p>Occasional writing. No schedule.</p>
+      <h2>Notes from the pipeline</h2>
+      <p>Dummy blog index — placeholder posts, real ones later.</p>
     </div>
     <div class="log-table">
       <a class="log-row" href="writing/post-1/">
-        <div class="log-date">2026.06.12</div>
-        <div class="log-title">Gideon: drop a CSV, get a live ML dashboard</div>
-        <div class="log-time">6 min</div>
-        <div class="log-tag">ML</div>
-      </a>
-      <a class="log-row" href="writing/post-2/">
         <div class="log-date">2026.06.15</div>
         <div class="log-title">DuckDB vs Athena: Two Very Different Ways to Query S3</div>
         <div class="log-time">5 min</div>
         <div class="log-tag">Data Eng</div>
+      </a>
+      <a class="log-row" href="writing/post-2/">
+        <div class="log-date">2026.05.03</div>
+        <div class="log-title">Dummy post title two — placeholder</div>
+        <div class="log-time">9 min</div>
+        <div class="log-tag">ML</div>
+      </a>
+      <a class="log-row" href="writing/post-3/">
+        <div class="log-date">2026.03.21</div>
+        <div class="log-title">Dummy post about Snowflake vs BigQuery</div>
+        <div class="log-time">5 min</div>
+        <div class="log-tag">Snowflake</div>
+      </a>
+      <a class="log-row" href="writing/post-4/">
+        <div class="log-date">2026.02.09</div>
+        <div class="log-title">Dummy post: what Basel III taught me about pipelines</div>
+        <div class="log-time">7 min</div>
+        <div class="log-tag">Fintech</div>
       </a>
     </div>
   </div>
@@ -164,7 +187,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">About</div>
-      <h2>Looking underneath</h2>
+      <h2>Dummy bio heading</h2>
     </div>
     <div class="about-grid">
       <div class="about-side">
@@ -172,17 +195,16 @@
           <img src="images/about.png" alt="Portrait">
         </div>
         <div class="interests-grid">
-          <div class="interest-chip"><div class="eyebrow">Interest</div>
-          <div class="ic-name">DIY crafts</div>
-          <div class="ic-name">Traveling</div>
-          <div class="ic-name">Nature Walks</div>
-          <div class="ic-name">Fitness</div></div>
+          <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 1</div></div>
+          <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 2</div></div>
+          <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 3</div></div>
+          <div class="interest-chip"><div class="eyebrow">Interest</div><div class="ic-name">Dummy interest 4</div></div>
         </div>
       </div>
       <div class="about-bio">
-        <p>I never quite settled on calling myself just an engineer. Pipelines are the craft, but what pulls me in is the question sitting underneath them: why a report arrives a day late, why a number won't reconcile, why the same wall keeps stopping the same team. Six years spent in telecom and financial services taught me something I still hold to, that the code is rarely where the real difficulty lives. The harder task is understanding what the business is actually asking for.</p>
-        <p>I trust systems the way a good risk manager trusts a forecast: carefully, and only after asking what it's quietly assuming. Before a number reaches someone who has to make a decision on it, I want to know it can survive the question "does this actually hold up." I've never been comfortable handing a problem off in pieces. I would rather own it from the messy first draft to the moment it works, and clear whatever is standing in the way along the route.</p>
-        <p>These days that means Berlin, an M.Sc. in Analytics at Georgia Tech running alongside the day job, and a fairly stubborn refusal to stop being curious about the field. I like being proven wrong if it means I learn something properly. What I'm looking for next is a place willing to hand me a real problem and let me actually own the outcome, not just the ticket.</p>
+        <p>Dummy paragraph one — placeholder bio text about background, move to Berlin, current MSc at Georgia Tech, etc. Swap for real copy later.</p>
+        <p>Dummy paragraph two — placeholder text about approach to engineering, what you care about, how you think about tradeoffs.</p>
+        <p>Dummy paragraph three — placeholder closing line, personality, what you're looking for next.</p>
       </div>
     </div>
   </div>
@@ -191,12 +213,12 @@
 <section class="section" id="contact" style="padding-top:0;">
   <div class="wrap">
     <div class="contact">
-      <h2>You'll want to click it. That's how trouble starts</h2>
-      <p>I mean the good kind 👀 I’m looking for my next role in Berlin.</p>
+      <h2>Dummy CTA heading</h2>
+      <p>Dummy subline — placeholder for a line about being open to roles in Berlin.</p>
       <div class="contact-links">
-        <a href="mailto:ebraheemsohail@gmail.com" class="btn-primary" target="_blank" rel="noopener noreferrer">Say hi</a>
-        <a href="https://linkedin.com/in/ahmadebraheem" class="btn-ghost" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://github.com/ahmadebraheem" class="btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="#" class="btn-primary">Email me</a>
+        <a href="#" class="btn-ghost">LinkedIn</a>
+        <a href="#" class="btn-ghost">GitHub</a>
       </div>
     </div>
   </div>
@@ -204,11 +226,11 @@
 
 <footer>
   <div class="wrap">
-    <div>© 2026</div>
+    <div>© 2026 — dummy footer text</div>
     <div class="foot-links">
-      <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="mailto:ebraheemsohail@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">GitHub</a>
+      <a href="#">Email</a>
     </div>
   </div>
 </footer>
@@ -226,6 +248,21 @@
       });
     });
   });
+
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open');
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+      });
+    });
+  }
 </script>
 
 </body>
