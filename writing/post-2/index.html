@@ -74,17 +74,17 @@
 
       <pre><code>import duckdb
 
-conn = duckdb.connect()
-conn.execute("INSTALL httpfs; LOAD httpfs;")
-conn.execute("""
-    SET s3_region='&lt;your region&gt;';
-    SET s3_access_key_id='...';
-    SET s3_secret_access_key='...';
-""")
+      conn = duckdb.connect()
+      conn.execute("INSTALL httpfs; LOAD httpfs;")
+      conn.execute("""
+          SET s3_region='&lt;your region&gt;';
+          SET s3_access_key_id='...';
+          SET s3_secret_access_key='...';
+      """)
 
-result = conn.execute("""
-    SUMMARIZE SELECT * from read_parquet('s3://my-bucket/events/file.parquet')
-""").fetchdf()</code></pre>
+      result = conn.execute("""
+          SUMMARIZE SELECT * from read_parquet('s3://my-bucket/events/file.parquet')
+      """).fetchdf()</code></pre>
 
       <p>Athena's S3 integration is native, since both are part of AWS. The process is as follows:</p>
 
@@ -109,7 +109,6 @@ result = conn.execute("""
       <p>Athena isn't going anywhere. It's deeply embedded in AWS-native data stacks. The Iceberg table format support it added makes it more competitive for modern lakehouse architectures. For large-scale, multi-user production workloads, it remains a solid choice.</p>
 
       <p>DuckDB and Athena aren't really competing for the same job anymore. DuckDB owns local analytics and small-to-medium production pipelines. Athena owns large-scale, shared, cloud-native query workloads. Knowing which one you're building will make the choice obvious.</p>
-    </div>
     </div>
 
     <div class="comments">
