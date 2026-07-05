@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dummy post title two — placeholder</title>
+<title>DuckDB vs Athena: Two Very Different Ways to Query S3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,28 +29,87 @@
     <a class="back-link" href="/#writing">← Back to writing</a>
 
     <div class="post-header">
-      <span class="eyebrow log-date">2026.05.03</span>
-      <h1>Dummy post title two — placeholder</h1>
+      <span class="eyebrow log-date">2026.06.15</span>
+      <h1>DuckDB vs Athena: Two Very Different Ways to Query S3</h1>
       <div class="post-meta">
-        <span>9 min read</span>
-        <span class="log-tag">ML</span>
+        <span>5 min read</span>
+        <span class="log-tag">Data Eng</span>
       </div>
     </div>
 
-    <div class="post-body">
-      <p>Dummy paragraph one — placeholder body copy for this post. Swap for the real writeup later.</p>
-      <p>Dummy paragraph two — more placeholder text, just here to show layout and line length at real reading width.</p>
-      <h2>Dummy subheading</h2>
-      <p>Dummy paragraph three — placeholder text under a subheading, to test how section breaks look in the post body.</p>
-      <p>Dummy paragraph four — closing placeholder paragraph.</p>
+    <div class="photo-frame post-cover">
+      <img src="../../images/post-2-cover.jpg" alt="">
     </div>
 
-    <div class="like-bar">
-      <button id="likeBtn" class="like-btn">
-        <span id="likeIcon">♡</span>
-        <span id="likeCount">0</span> likes
-      </button>
-      <span class="like-note">Demo like button (local only) — Giscus below adds real reactions once configured.</span>
+    <div class="post-body">
+      <p>You have data sitting in S3 and you fancy querying it. Someone suggests Athena, but you've also heard people raving about DuckDB. Both run SQL and can read Parquet directly from S3, so which one do you actually pick? It's a tricky choice if you haven't used both in production.</p>
+
+      <p>I have, but it's never a clean pick. It depends on the use case and volume of the data. However, in day-to-day life, you don't often get data in hundreds of GBs, rather it's a 5 GB or 10 GB file. DuckDB can handle that easily, depending on available memory (RAM), and DuckDB is often faster than Athena on smaller datasets because there is no overhead of spinning up infrastructure.</p>
+
+      <p>Whilst Athena would have the muscle to process hundreds of gigabytes or more, it comes with the downside of cloud costs. You can absolutely be smart with it, but why take that risk when you can get similar performance locally, staying within reasonable limits. You also don't have to deal with the IAM rabbit hole either.</p>
+
+      <p>Before getting into the tradeoffs, it's worth being clear on what each tool actually is, because the distinction matters.</p>
+
+      <p>DuckDB is an embedded OLAP database. It runs inside your Python script, your Jupyter notebook, wherever. There's no server to provision, no cluster to spin up. You install it with <code>pip</code> or <code>uv</code> and you're running analytical queries in seconds. It's columnar, vectorized, and genuinely fast on datasets that fit in memory.</p>
+
+      <p>Athena is AWS's serverless query service. You point it at S3, define your schema in the Glue Data Catalog, and run SQL through the console or API. AWS handles all the compute; you pay per query. It scales horizontally across your data without you thinking about it.</p>
+
+      <p>The key difference is the architecture. DuckDB is a library whereas Athena is a service.</p>
+
+      <h2>The cost</h2>
+      <p>Athena charges $5 per TB of data scanned. On paper that sounds cheap. In practice, it depends entirely on how your data is stored.</p>
+
+      <p>Query an unpartitioned 200 GB JSON table and you're scanning all 200 GB every time, at about $1 per query. Do that fifty times a day during active development and you've spent $50 before lunch. Add a few ad hoc analysis queries and the bill gets uncomfortable fast.</p>
+
+      <p>You could partition your data by date or another relevant dimension, use columnar formats like Parquet or ORC, and compress aggressively. A well-structured Parquet table with proper partitioning can reduce scans massively. But that's setup cost you have to pay upfront, and it requires discipline across your entire data pipeline. That's fine for production, but for analytics, where you're exploring and experimenting, the flexibility is gold.</p>
+
+      <p>In contrast, DuckDB is free to run. The compute cost depends on where you run it: your laptop (free), or an EC2 instance. For local development and exploration, the cost is effectively zero. For production pipelines running on smaller datasets, it's still negligible.</p>
+
+      <p>Unless you're querying datasets in the hundreds of GBs frequently and have a large team, DuckDB is almost certainly cheaper. Once you're dealing with hundreds of GBs, multiple concurrent users, and structured production workflows, Athena's per-TB model starts making more sense.</p>
+
+      <h2>The setup</h2>
+      <p>Both DuckDB and Athena can query S3 data directly.</p>
+
+      <p>DuckDB's httpfs extension lets you read Parquet files straight from S3:</p>
+
+      <pre><code>import duckdb
+
+conn = duckdb.connect()
+conn.execute("INSTALL httpfs; LOAD httpfs;")
+conn.execute("""
+    SET s3_region='&lt;your region&gt;';
+    SET s3_access_key_id='...';
+    SET s3_secret_access_key='...';
+""")
+
+result = conn.execute("""
+    SUMMARIZE SELECT * from read_parquet('s3://my-bucket/events/file.parquet')
+""").fetchdf()</code></pre>
+
+      <p>Athena's S3 integration is native, since both are part of AWS. The process is as follows:</p>
+
+      <ul>
+        <li>An S3 bucket with your data, e.g. 's3://my-bucket/events/file.parquet'</li>
+        <li>A separate S3 bucket for query results</li>
+        <li>A Glue Data Catalog database and table pointing at your data</li>
+        <li>IAM roles with the right S3 and Athena permissions</li>
+        <li>Optionally, a Glue crawler to infer schema automatically</li>
+      </ul>
+
+      <p>Once that's done, it works reliably and the Glue catalog becomes a useful asset. It's queryable itself and integrates with other AWS services. But getting there takes a bit of time.</p>
+
+      <h2>The performance</h2>
+      <p>DuckDB is single-node. For datasets that fit comfortably in memory, say under 20 GB, DuckDB is faster than Athena. Not slightly faster, but noticeably faster. However, it can spill to disk when data exceeds memory. Also, there is no infrastructure overhead, and only a simple <code>pip install</code> is required. I have run queries on medium-sized datasets where DuckDB was 5–8x faster compared to Athena.</p>
+
+      <p>Athena, however, has infrastructure overhead. Every query spins up Presto workers, reads metadata from the Glue Catalog, and allocates compute before a single row is scanned. On small queries, that startup cost is often longer than the actual execution time. If your data genuinely lives at hundreds of gigabytes to petabyte scale, Athena is the right tool and DuckDB is not a real alternative. Athena also wins when multiple people need to query the same data. DuckDB has no concept of a shared query endpoint; every user runs their own instance. Athena sits in front of a shared S3 data store and handles concurrency natively. For a data team of five or more people, that starts to matter.</p>
+
+      <h2>What's next</h2>
+      <p>DuckDB's trajectory is strong. The 1.0 release in 2024 signaled production readiness, and the community around it has grown quickly. The httpfs extension keeps improving, memory management is getting better with each release, and the Python integration is genuinely excellent. DuckDB has now become the sensible first choice for a lot of use cases that previously defaulted to Spark or Athena.</p>
+
+      <p>Athena isn't going anywhere. It's deeply embedded in AWS-native data stacks. The Iceberg table format support it added makes it more competitive for modern lakehouse architectures. For large-scale, multi-user production workloads, it remains a solid choice.</p>
+
+      <p>DuckDB and Athena aren't really competing for the same job anymore. DuckDB owns local analytics and small-to-medium production pipelines. Athena owns large-scale, shared, cloud-native query workloads. Knowing which one you're building will make the choice obvious.</p>
+    </div>
     </div>
 
     <div class="comments">
@@ -89,32 +148,6 @@
     </div>
   </div>
 </footer>
-
-<script>
-  const LIKE_KEY = 'likes_post-2';
-  const likeBtn = document.getElementById('likeBtn');
-  const likeIcon = document.getElementById('likeIcon');
-  const likeCount = document.getElementById('likeCount');
-
-  function getLikeState(){
-    try{ return JSON.parse(localStorage.getItem(LIKE_KEY)) || { count: 0, liked: false }; }
-    catch(e){ return { count: 0, liked: false }; }
-  }
-  function renderLike(){
-    const state = getLikeState();
-    likeCount.textContent = state.count;
-    likeIcon.textContent = state.liked ? '♥' : '♡';
-    likeBtn.classList.toggle('liked', state.liked);
-  }
-  likeBtn.addEventListener('click', () => {
-    const state = getLikeState();
-    state.liked = !state.liked;
-    state.count = Math.max(0, state.count + (state.liked ? 1 : -1));
-    localStorage.setItem(LIKE_KEY, JSON.stringify(state));
-    renderLike();
-  });
-  renderLike();
-</script>
 
 </body>
 </html>
