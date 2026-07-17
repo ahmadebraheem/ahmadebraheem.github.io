@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gideon: Drop a CSV, Get a Live ML Dashboard</title>
+<meta name="description" content="I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/">
+<meta property="og:title" content="Gideon: Drop a CSV, Get a Live ML Dashboard">
+<meta property="og:description" content="I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.">
+<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/">
+<meta name="twitter:title" content="Gideon: Drop a CSV, Get a Live ML Dashboard">
+<meta name="twitter:description" content="I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="theme-color" content="#171717">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/">
+<link rel="stylesheet" href="../../styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Gideon: Drop a CSV, Get a Live ML Dashboard",
+  "description": "I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.",
+  "image": "https://ahmadebraheem.me/images/og-image.jpg",
+  "url": "https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/",
+  "datePublished": "2026-07-17",
+  "dateModified": "2026-07-17",
+  "author": {
+    "@type": "Person",
+    "name": "Ahmad Ebraheem",
+    "url": "https://ahmadebraheem.me/"
+  },
+  "mainEntityOfPage": "https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/"
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><img src="../../images/logo.svg" alt="Ahmad Ebraheem logo" class="logo-mark">Ahmad Ebraheem</a>
+    <div class="nav-links">
+      <a href="/#work">Work</a>
+      <a href="/#writing">Writing</a>
+      <a href="/#about">About</a>
+      <a href="/#contact" class="nav-cta">Get in touch</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="/#work">Work</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<section class="section" style="padding-top:140px;">
+  <div class="wrap">
+    <a class="back-link" href="/#writing">← Back to writing</a>
+
+    <div class="post-header">
+      <span class="eyebrow log-date">2026.07.17</span>
+      <h1>Gideon: Drop a CSV, Get a Live ML Dashboard</h1>
+      <div class="post-meta">
+        <span>6 min read</span>
+        <span class="log-tag">ML</span>
+      </div>
+    </div>
+
+    <div class="post-body">
+      <p>Most ML demos have a dirty secret: someone is babysitting them. There's a notebook that has to be re-run, a cell that has to be edited when the data changes, a person quietly regenerating the dashboard before the meeting. I wanted to know how far I could push the opposite: drop a file in a folder, and everything else — cleaning, feature engineering, training, evaluation, deployment, dashboard — happens without anyone touching code.</p>
+
+      <p>That experiment became <a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">Gideon</a>: a local, zero-cloud, zero-API automated ML pipeline. Drop a CSV (or JSON, or Parquet) into <code>inbox/</code>, and Gideon takes it from raw file to a deployed XGBoost model with a live Streamlit dashboard. Drop a newer file, and the whole pipeline reruns and the dashboard updates. Everything runs on your machine — no network calls, no external services, no keys.</p>
+
+      <h2>Eight agents, one rule</h2>
+      <p>The interesting part isn't the ML. It's the architecture, and it comes straight from my day job building ETL pipelines. Gideon is eight specialist agents, each owning exactly one task:</p>
+
+      <pre><code>ingestor → cleaner → feature_eng → trainer →
+evaluator → deployer → dashboard_gen → monitor</code></pre>
+
+      <p>The rule that makes it work: <strong>one agent, one input, one output — no shared in-memory state.</strong> Agents communicate only by reading and writing files in <code>artifacts/</code>. The ingestor writes <code>raw.parquet</code>; the cleaner reads it and writes <code>cleaned.parquet</code> plus a cleaning report; the trainer writes <code>model.joblib</code>; and so on down the line. A boss orchestrates the sequence and writes a run manifest, and a watcher (built on <code>watchdog</code>) triggers the boss when a new file lands.</p>
+
+      <p>If you've read my <a href="/work/medallion-etl-rebuild/">Medallion pipeline case study</a>, you'll recognize the instinct — this is Bronze/Silver/Gold thinking applied to an ML system. Files as contracts buy you the same things layers buy you in a warehouse: every stage is replayable, every intermediate result is inspectable, and when something breaks you can run one agent standalone (<code>python -m agents.cleaner</code>) against the exact artifact that made it fail. Debugging a pipeline where state lives in files is a search; debugging one where state lives in memory is an archaeology dig.</p>
+
+      <h2>Making "automatic" honest</h2>
+      <p>"Nobody touches any code" is only true if the pipeline can make its own decisions about an arbitrary dataset. Gideon handles that with a few deliberately boring heuristics:</p>
+      <ul>
+        <li><strong>Target detection</strong> — use a well-known column name (<code>target</code>, <code>label</code>, <code>y</code>, <code>class</code>, <code>outcome</code>, <code>result</code>) if one exists, otherwise the last column.</li>
+        <li><strong>Task detection</strong> — non-numeric or few integer-like values means classification; otherwise regression.</li>
+        <li><strong>Feature engineering</strong> — datetime expansion, one-hot encoding for low-cardinality categoricals, frequency encoding for high-cardinality ones.</li>
+        <li><strong>Modeling</strong> — XGBoost with sensible defaults, no tuning theatre.</li>
+      </ul>
+      <p>None of these decisions is clever, and that's the point. Sensible defaults that are right 90% of the time beat configurable options that require a human 100% of the time — a human in the loop was the exact thing I was trying to remove.</p>
+
+      <h2>The unglamorous parts are the product</h2>
+      <p>What I ended up most proud of isn't visible in a screenshot. It's the failure modes that don't happen:</p>
+      <ul>
+        <li>Artifacts are written <strong>atomically</strong> — temp file, then rename — so the dashboard can never read a half-written file. There is no window where a chart renders from a model that's mid-save.</li>
+        <li>Runs are <strong>serialised</strong>. Drop a second CSV while the first is processing and it queues; it doesn't corrupt the run in flight.</li>
+        <li>The watcher <strong>de-duplicates by content hash</strong>, so re-saving the same file doesn't burn a pointless retrain. Only genuinely new data triggers the pipeline.</li>
+        <li>Emptying the inbox <strong>resets the dashboard</strong> to a clean waiting state instead of showing stale results from data that no longer exists.</li>
+      </ul>
+      <p>Every one of those is a lesson production data engineering teaches you eventually, usually at 2 a.m. Race conditions, duplicate triggers, and stale state are exactly how "automated" systems lose people's trust — and once a stakeholder catches one wrong number, they re-check everything by hand forever after. The plumbing is the product.</p>
+
+      <h2>The dashboard does the talking</h2>
+      <p>The Streamlit dashboard renders whatever the pipeline produced, and it adapts to the dataset. A dataset with a date column gets month-over-month and year-over-year trends, best and worst months, and auto-discovered correlations described in plain language. A regression target gets a forecast tab with a configurable horizon and a ±1.5×RMSE confidence band. Predictions that deviate more than 2σ from actuals get flagged red as anomalies. And a what-if tab builds one slider per influential feature and runs a live <code>model.predict()</code> as you move them, showing the delta against the baseline.</p>
+
+      <p>That last tab is the one that lands with non-technical people. Metrics cards tell an analyst the model is fine; dragging a slider and watching the prediction move is what makes a stakeholder <em>believe</em> the model is real.</p>
+
+      <h2>Where it stops</h2>
+      <p>Gideon is not AutoML and doesn't want to be. It won't beat a tuned model built by someone who sat with the data, and heuristics that are right most of the time are still wrong sometimes — that's the tax on "zero config". What it demonstrates is the part I care about professionally: that the reliability patterns from warehouse engineering — single-responsibility stages, file contracts, atomic writes, idempotent triggers — are exactly what most ML tooling is missing between the notebook and production.</p>
+
+      <p>The code is on <a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">GitHub</a>. Clone it, run <code>uv sync</code>, start the watcher, and drop a CSV in. Nobody touches any code — that was the whole idea.</p>
+    </div>
+
+    <div class="comments">
+      <h2>Comments</h2>
+      <script src="https://giscus.app/client.js"
+        data-repo="ahmadebraheem/ahmadebraheem.github.io"
+        data-repo-id="R_kgDOTNC9Wg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOTNC9Ws4DAgO_"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="transparent_dark"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Ahmad Ebraheem</div>
+    <div class="foot-links">
+      <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:ebraheemsohail@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>
+
+<div class="read-progress" aria-hidden="true"><span id="readProgressBar"></span></div>
+<script>
+  const progressBar = document.getElementById('readProgressBar');
+  const updateProgress = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    progressBar.style.transform = `scaleX(${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0})`;
+  };
+  document.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+<script data-goatcounter="https://ebraheem.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
