@@ -10,21 +10,27 @@
 <meta property="og:url" content="https://ahmadebraheem.me/">
 <meta property="og:title" content="Ahmad Ebraheem | Senior Data Engineer in Berlin">
 <meta property="og:description" content="Senior Data Engineer based in Berlin with 6+ years building data pipelines and analytics systems across fintech, telecom, and financial services.">
-<meta property="og:image" content="https://ahmadebraheem.me/images/hero.png">
+<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ahmad Ebraheem — Senior Data Engineer in Berlin">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://ahmadebraheem.me/">
 <meta name="twitter:title" content="Ahmad Ebraheem | Senior Data Engineer in Berlin">
 <meta name="twitter:description" content="Senior Data Engineer based in Berlin with 6+ years building data pipelines and analytics systems across fintech, telecom, and financial services.">
-<meta name="twitter:image" content="https://ahmadebraheem.me/images/hero.png">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
+<meta name="theme-color" content="#171717">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="images/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href="https://ahmadebraheem.me/">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="/favicon.ico" sizes="any">
 
 <script type="application/ld+json">
 {
@@ -32,7 +38,7 @@
   "@type": "Person",
   "name": "Ahmad Ebraheem",
   "url": "https://ahmadebraheem.me/",
-  "image": "https://ahmadebraheem.me/images/hero.png",
+  "image": "https://ahmadebraheem.me/images/og-image.jpg",
   "jobTitle": "Senior Data Engineer",
   "address": {
     "@type": "PostalAddress",
@@ -76,7 +82,7 @@
       <a href="#about">About</a>
       <a href="#contact" class="nav-cta">Get in touch</a>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -100,7 +106,7 @@
       </div>
     </div>
     <div class="photo-frame hero-photo">
-      <img src="images/hero.png" alt="Ahmad Ebraheem, Senior Data Engineer based in Berlin">
+      <img src="images/hero.webp" width="896" height="1095" fetchpriority="high" alt="Ahmad Ebraheem, Senior Data Engineer based in Berlin">
     </div>
   </div>
 </section>
@@ -157,7 +163,7 @@
             <h3>OFSAA ALM & Basel Deployment</h3>
             <span class="wc-company">Techlogix</span>
           </div>
-          <p>Deployed ALM and Basel III Capital Adequacy Rsatio modules in Oracle Financial Services Analytical Applications, with custom reporting and legacy ETL optimization that massively cut processing time.</p>
+          <p>Deployed ALM and Basel III Capital Adequacy Ratio modules in Oracle Financial Services Analytical Applications, with custom reporting and legacy ETL optimization that massively cut processing time.</p>
         </div>
         <div class="wc-result">10 mins<span>from 24 hrs</span></div>
       </div>
@@ -208,13 +214,7 @@
       <p>Occasional writing. No schedule.</p>
     </div>
     <div class="log-table">
-      <a class="log-row" href="writing/post-1/">
-        <div class="log-date">2026.06.12</div>
-        <div class="log-title">Gideon: drop a CSV, get a live ML dashboard</div>
-        <div class="log-time">6 min</div>
-        <div class="log-tag">ML</div>
-      </a>
-      <a class="log-row" href="writing/post-2/">
+      <a class="log-row" href="writing/duckdb-vs-athena/">
         <div class="log-date">2026.06.15</div>
         <div class="log-title">DuckDB vs Athena: Two Very Different Ways to Query S3</div>
         <div class="log-time">5 min</div>
@@ -233,7 +233,7 @@
     <div class="about-grid">
       <div class="about-side">
         <div class="photo-frame about-photo">
-          <img src="images/about.png" alt="Ahmad Ebraheem">
+          <img src="images/about.webp" width="894" height="986" loading="lazy" alt="Ahmad Ebraheem">
         </div>
         <div class="interests-grid">
           <div class="interest-chip"><div class="eyebrow">Interest</div>
@@ -258,7 +258,7 @@
       <h2>You'll want to click it. That's how trouble starts</h2>
       <p>I mean the good kind 👀 I'm looking for my next role in Berlin.</p>
       <div class="contact-links">
-        <a href="mailto:ebraheemsohail@gmail.com" class="btn-primary" target="_blank" rel="noopener noreferrer">Say hi</a>
+        <a href="mailto:ebraheemsohail@gmail.com" class="btn-primary">Say hi</a>
         <a href="https://linkedin.com/in/ahmadebraheem" class="btn-ghost" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/ahmadebraheem" class="btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
@@ -297,13 +297,15 @@
   const navMobilePanel = document.getElementById('navMobilePanel');
   if (navToggle && navMobilePanel) {
     navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('open');
-      navMobilePanel.classList.toggle('open');
+      const open = navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
     });
     navMobilePanel.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('open');
         navMobilePanel.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
       });
     });
   }
