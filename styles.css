@@ -512,3 +512,33 @@
   width: 100% !important;
   max-width: 680px;
 }
+
+/* READING PROGRESS (post pages) */
+.read-progress{
+  position: fixed; top:0; left:0; right:0;
+  height: 2px;
+  z-index: 200;
+  pointer-events: none;
+}
+.read-progress span{
+  display:block;
+  height:100%;
+  background: var(--emerald-tint);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* ACCESSIBILITY */
+:focus-visible{
+  outline: 2px solid var(--emerald-tint);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior: auto; }
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+}
