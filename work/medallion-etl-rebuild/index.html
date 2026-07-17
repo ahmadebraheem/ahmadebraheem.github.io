@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: Medallion ETL rebuild for FCR reporting | Ahmad Ebraheem</title>
+<meta name="description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ahmadebraheem.me/work/medallion-etl-rebuild/">
+<meta property="og:title" content="Case study: Medallion ETL rebuild for FCR reporting">
+<meta property="og:description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
+<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Case study: Medallion ETL rebuild for FCR reporting">
+<meta name="twitter:description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="theme-color" content="#171717">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://ahmadebraheem.me/work/medallion-etl-rebuild/">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><img src="../../images/logo.svg" alt="Ahmad Ebraheem logo" class="logo-mark">Ahmad Ebraheem</a>
+    <div class="nav-links">
+      <a href="/#work">Work</a>
+      <a href="/#writing">Writing</a>
+      <a href="/#about">About</a>
+      <a href="/#contact" class="nav-cta">Get in touch</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="/#work">Work</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<section class="section" style="padding-top:140px;">
+  <div class="wrap">
+    <a class="back-link" href="/#work">← Back to work</a>
+
+    <div class="post-header">
+      <span class="eyebrow log-date">Case study · Afiniti / AT&amp;T account</span>
+      <h1>Medallion ETL rebuild for FCR reporting</h1>
+      <div class="post-meta">
+        <span>Senior Data Engineer</span>
+        <span class="log-tag">Snowflake · Python · SQL</span>
+      </div>
+    </div>
+
+    <div class="cs-stats">
+      <div class="cs-stat"><div class="n">1 hr</div><div class="l">report delivery, from 1 day</div></div>
+      <div class="cs-stat"><div class="n">80–90%</div><div class="l">runtime cut on core SQL</div></div>
+      <div class="cs-stat"><div class="n">0</div><div class="l">manual steps left in the weekly cycle</div></div>
+    </div>
+
+    <div class="post-body">
+      <h2>Context</h2>
+      <p>Afiniti pairs contact-center callers with agents using AI, and gets paid on measured performance. That makes reporting existential: first-call resolution (FCR) numbers on the AT&amp;T account went to people making revenue decisions, on a daily and monthly cadence. The source data lived in Snowflake; the reporting around it had grown organically over years.</p>
+
+      <h2>The problem</h2>
+      <p>Pulling the data for a single reporting cycle took about a day, and parts of the weekly KPI reporting — churn, agent performance — were being assembled by hand by two people. Slow is survivable; untrustworthy isn't. When a pipeline failed, it failed silently, and the first person to find out was usually the one reading the report.</p>
+
+      <h2>What I built</h2>
+      <p>I rebuilt the pipeline end-to-end on a Medallion architecture — Bronze, Silver, Gold — sourcing from Snowflake:</p>
+      <ul>
+        <li><strong>Bronze</strong> took raw extracts as-is, with schema applied and duplicates resolved. I added slowly changing dimension (SCD) tables to track agent attributes over time, because "which team was this agent on in March" turns out to matter a lot when revenue is performance-based.</li>
+        <li><strong>Silver</strong> is where the data earned trust: custom data-quality checks on every load, plus GDPR-compliant PII masking and anonymization so downstream consumers never touched raw personal data.</li>
+        <li><strong>Gold</strong> held the executive-facing aggregates — the FCR and KPI tables the reports actually read from.</li>
+      </ul>
+      <p>Everything wrote to centralized pipeline logging, so a failure announced itself with a timestamp and a stage name instead of a wrong number three days later. Alongside the rebuild I tuned the heaviest SQL, cutting runtimes on large-scale datasets by 80–90%.</p>
+
+      <h2>What made it hard</h2>
+      <p>The technical work was the smaller half. The existing reports were the source of truth for a large client relationship, so every layer of the new pipeline had to reconcile exactly against the old numbers before anything switched over. The data-quality checks I wrote for Silver surfaced more than five real data issues in the process — awkward conversations short-term, but each one strengthened the client's trust in the numbers long-term.</p>
+
+      <h2>Outcome</h2>
+      <p>Report delivery went from a day to an hour. The two-person manual weekly KPI process disappeared entirely — fully automated across sites and BPOs. And because quality checks and logging were built in rather than bolted on, the pipeline kept earning trust after I stopped watching it, which is the only definition of "done" I accept for production data work.</p>
+    </div>
+
+    <div class="cs-next">
+      <a class="back-link" href="/#work">← All work</a>
+      <a class="back-link" href="/work/genesys-call-routing-redesign/">Next: Genesys redesign for AI call routing →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Ahmad Ebraheem</div>
+    <div class="foot-links">
+      <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:ebraheemsohail@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>
+
+<div class="read-progress" aria-hidden="true"><span id="readProgressBar"></span></div>
+<script>
+  const progressBar = document.getElementById('readProgressBar');
+  const updateProgress = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    progressBar.style.transform = `scaleX(${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0})`;
+  };
+  document.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+<script data-goatcounter="https://ebraheem.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

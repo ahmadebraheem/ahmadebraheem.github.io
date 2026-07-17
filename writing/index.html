@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing | Ahmad Ebraheem — Senior Data Engineer</title>
+<meta name="description" content="Occasional writing on data engineering — tools, tradeoffs, and lessons from production. No schedule.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ahmadebraheem.me/writing/">
+<meta property="og:title" content="Writing | Ahmad Ebraheem — Senior Data Engineer">
+<meta property="og:description" content="Occasional writing on data engineering — tools, tradeoffs, and lessons from production. No schedule.">
+<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Writing | Ahmad Ebraheem — Senior Data Engineer">
+<meta name="twitter:description" content="Occasional writing on data engineering — tools, tradeoffs, and lessons from production. No schedule.">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="theme-color" content="#171717">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://ahmadebraheem.me/writing/">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><img src="../images/logo.svg" alt="Ahmad Ebraheem logo" class="logo-mark">Ahmad Ebraheem</a>
+    <div class="nav-links">
+      <a href="/#work">Work</a>
+      <a href="/#writing">Writing</a>
+      <a href="/#about">About</a>
+      <a href="/#contact" class="nav-cta">Get in touch</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="/#work">Work</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<section class="section index-head">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Writing</div>
+      <h2>My thoughts</h2>
+      <p>Occasional writing. No schedule.</p>
+    </div>
+    <div class="log-table">
+      <a class="log-row" href="/writing/gideon-csv-to-ml-dashboard/">
+        <div class="log-date">2026.07.17</div>
+        <div class="log-title">Gideon: Drop a CSV, Get a Live ML Dashboard</div>
+        <div class="log-time">6 min</div>
+        <div class="log-tag">ML</div>
+      </a>
+      <a class="log-row" href="/writing/duckdb-vs-athena/">
+        <div class="log-date">2026.06.15</div>
+        <div class="log-title">DuckDB vs Athena: Two Very Different Ways to Query S3</div>
+        <div class="log-time">5 min</div>
+        <div class="log-tag">Data Eng</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Ahmad Ebraheem</div>
+    <div class="foot-links">
+      <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:ebraheemsohail@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>
+
+<script data-goatcounter="https://ebraheem.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -135,38 +135,41 @@
     </div>
 
     <div class="work-grid">
-      <div class="work-card">
+      <a class="work-card" href="work/medallion-etl-rebuild/">
         <div>
           <div class="wc-top">
             <h3>Medallion ETL rebuild</h3>
             <span class="wc-company">AT&T / Afiniti</span>
           </div>
           <p>Built an end-to-end ETL pipeline on a Medallion Architecture (Bronze/Silver/Gold), sourcing data from Snowflake, with custom data quality checks and centralized pipeline logging, cutting FCR report delivery massively.</p>
+          <span class="wc-more">Read the case study →</span>
         </div>
         <div class="wc-result">1 hr<span>from 1 day</span></div>
-      </div>
+      </a>
 
-      <div class="work-card">
+      <a class="work-card" href="work/genesys-call-routing-redesign/">
         <div>
           <div class="wc-top">
             <h3>Genesys redesign for downstream AI call routing</h3>
             <span class="wc-company">O2 / Afiniti</span>
           </div>
           <p>Redesigned O2's Genesys Infomart data warehouse, consolidating star schema tables into a unified calls feed for Afiniti's AI-based call routing, with zero disruption to client revenue.</p>
+          <span class="wc-more">Read the case study →</span>
         </div>
         <div class="wc-result">100%<span>revenue preserved</span></div>
-      </div>
+      </a>
 
-      <div class="work-card">
+      <a class="work-card" href="work/ofsaa-alm-basel/">
         <div>
           <div class="wc-top">
             <h3>OFSAA ALM & Basel Deployment</h3>
             <span class="wc-company">Techlogix</span>
           </div>
           <p>Deployed ALM and Basel III Capital Adequacy Ratio modules in Oracle Financial Services Analytical Applications, with custom reporting and legacy ETL optimization that massively cut processing time.</p>
+          <span class="wc-more">Read the case study →</span>
         </div>
         <div class="wc-result">10 mins<span>from 24 hrs</span></div>
-      </div>
+      </a>
     </div>
 
     <div class="pipeline-block">
@@ -202,6 +205,28 @@
           <div class="stage-meta">Exec-ready aggregates</div>
         </div>
       </div>
+      <div class="pipeline-detail" id="pipelineDetail" aria-live="polite"></div>
+    </div>
+
+    <div class="stack-block">
+      <div class="eyebrow">Toolbox</div>
+      <div class="stack-row">
+        <span class="stack-chip">SQL</span>
+        <span class="stack-chip">Python</span>
+        <span class="stack-chip">Snowflake</span>
+        <span class="stack-chip">Spark</span>
+        <span class="stack-chip">Airflow</span>
+        <span class="stack-chip">AWS</span>
+        <span class="stack-chip">Databricks</span>
+        <span class="stack-chip">dbt</span>
+        <span class="stack-chip">PostgreSQL</span>
+        <span class="stack-chip">Oracle PL/SQL</span>
+        <span class="stack-chip">Talend</span>
+        <span class="stack-chip">Apache Superset</span>
+        <span class="stack-chip">Tableau</span>
+        <span class="stack-chip">Docker</span>
+        <span class="stack-chip">Git</span>
+      </div>
     </div>
   </div>
 </section>
@@ -214,6 +239,12 @@
       <p>Occasional writing. No schedule.</p>
     </div>
     <div class="log-table">
+      <a class="log-row" href="writing/gideon-csv-to-ml-dashboard/">
+        <div class="log-date">2026.07.17</div>
+        <div class="log-title">Gideon: Drop a CSV, Get a Live ML Dashboard</div>
+        <div class="log-time">6 min</div>
+        <div class="log-tag">ML</div>
+      </a>
       <a class="log-row" href="writing/duckdb-vs-athena/">
         <div class="log-date">2026.06.15</div>
         <div class="log-title">DuckDB vs Athena: Two Very Different Ways to Query S3</div>
@@ -280,16 +311,22 @@
 <script>
   const buttons = document.querySelectorAll('.pt-btn');
   const stages = document.querySelectorAll('.stage');
+  const detail = document.getElementById('pipelineDetail');
+  const stageNotes = [
+    "Extracts land exactly as the source produced them — Snowflake exports, Oracle dumps, flat files. No cleanup yet, on purpose: an untouched copy means any downstream number can be replayed and audited back to its origin.",
+    "Schema gets enforced and duplicates resolved. This is also where I keep slowly changing dimensions — tracking how agent and account attributes evolve over time, because \u201cwhat was true in March\u201d matters when revenue is performance-based.",
+    "Where the data earns trust. Custom quality checks run on every load, GDPR-compliant PII masking is applied, and entities get joined into shapes analysts can actually use. Checks I wrote here have caught real data issues before any client saw them.",
+    "Executive-facing aggregates: FCR, churn, agent KPIs. Small, fast tables that reports read directly — delivered in an hour instead of a day, with centralized logging so a failure announces itself before the report does."
+  ];
+  const setStage = (idx) => {
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.stage === idx));
+    stages.forEach(s => s.classList.toggle('on', s.dataset.idx === idx));
+    detail.textContent = stageNotes[idx];
+  };
   buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const idx = btn.dataset.stage;
-      stages.forEach(s => {
-        s.classList.toggle('on', s.dataset.idx === idx);
-      });
-    });
+    btn.addEventListener('click', () => setStage(btn.dataset.stage));
   });
+  setStage('0');
 </script>
 
 <script>
@@ -311,5 +348,7 @@
   }
 </script>
 
+<script data-goatcounter="https://ebraheem.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

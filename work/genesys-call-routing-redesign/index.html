@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: Genesys warehouse redesign for AI call routing | Ahmad Ebraheem</title>
+<meta name="description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ahmadebraheem.me/work/genesys-call-routing-redesign/">
+<meta property="og:title" content="Case study: Genesys warehouse redesign for AI call routing">
+<meta property="og:description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
+<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Case study: Genesys warehouse redesign for AI call routing">
+<meta name="twitter:description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+
+<meta name="theme-color" content="#171717">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/images/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="https://ahmadebraheem.me/work/genesys-call-routing-redesign/">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="logo"><img src="../../images/logo.svg" alt="Ahmad Ebraheem logo" class="logo-mark">Ahmad Ebraheem</a>
+    <div class="nav-links">
+      <a href="/#work">Work</a>
+      <a href="/#writing">Writing</a>
+      <a href="/#about">About</a>
+      <a href="/#contact" class="nav-cta">Get in touch</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile-panel" id="navMobilePanel">
+    <a href="/#work">Work</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#about">About</a>
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<section class="section" style="padding-top:140px;">
+  <div class="wrap">
+    <a class="back-link" href="/#work">← Back to work</a>
+
+    <div class="post-header">
+      <span class="eyebrow log-date">Case study · Afiniti / O2 &amp; Virgin Media accounts</span>
+      <h1>Genesys warehouse redesign for AI call routing</h1>
+      <div class="post-meta">
+        <span>Data Analytics Engineer</span>
+        <span class="log-tag">SQL · Data Warehousing · Python</span>
+      </div>
+    </div>
+
+    <div class="cs-stats">
+      <div class="cs-stat"><div class="n">100%</div><div class="l">client revenue preserved through cutover</div></div>
+      <div class="cs-stat"><div class="n">~80%</div><div class="l">monthly revenue protected on Virgin Media</div></div>
+      <div class="cs-stat"><div class="n">3 days</div><div class="l">of manual effort removed via automated alerts</div></div>
+    </div>
+
+    <div class="post-body">
+      <h2>Context</h2>
+      <p>O2's contact-center telemetry lived in a Genesys Infomart data warehouse — a sprawling star schema recording every call, queue, and agent interaction. Afiniti's AI routing sat downstream of it: the models needed a clean, reliable feed of call data to decide which agent should take which caller. The warehouse wasn't designed for that consumer.</p>
+
+      <h2>The problem</h2>
+      <p>The routing feed was assembled from many star schema tables, each with its own quirks, timing, and failure modes. Every fragile join was a way for the feed to silently drift from reality — and because Afiniti's revenue on the account was tied to measured routing performance, a broken feed didn't just mean a bad dashboard. It meant real money, for both sides.</p>
+
+      <h2>What I built</h2>
+      <p>I redesigned the warehouse's consumption layer, consolidating the star schema tables into a single unified calls feed purpose-built for the routing models. One feed, one contract, one place to enforce quality. The redesign had a hard constraint: the routing engine consuming it could never notice the switch. We reconciled the new feed against the old assembly line-by-line before cutover, and client revenue came through at 100%.</p>
+      <p>The same period included two adjacent builds on sister accounts:</p>
+      <ul>
+        <li>Leading the integration of Cisco PQ-based routing with Afiniti's systems on Virgin Media — an integration that, had it gone wrong, put roughly 80% of the account's monthly revenue at risk.</li>
+        <li>An invoice reconciliation framework for Virgin Media, so the numbers on the invoice could be traced to the numbers in the warehouse — accurate financial documentation, paid on time.</li>
+        <li>Automated BI dashboards (Python + Apache Superset) tracking FCR, AHT, conversion, churn, and agent performance, plus automated email alerts that delivered KPI movements to senior stakeholders — removing about three days of manual effort across three team members.</li>
+      </ul>
+
+      <h2>What made it hard</h2>
+      <p>Nothing about the schema was the hard part. The hard part was that the system had to be rebuilt while it was running, under a revenue guarantee, for a client who would reasonably interpret any anomaly as a billing question. That forces a certain engineering style: reconcile everything, automate the checks, and never make the client discover a problem before you do.</p>
+
+      <h2>Outcome</h2>
+      <p>A single, trustworthy calls feed powering AI routing on a major telecom account, revenue fully preserved through the transition, and a reporting layer that pushed insights to stakeholders instead of waiting to be asked. The unified-feed pattern outlived the project — it's simply a better shape for any warehouse that feeds a model.</p>
+    </div>
+
+    <div class="cs-next">
+      <a class="back-link" href="/work/medallion-etl-rebuild/">← Previous: Medallion ETL rebuild</a>
+      <a class="back-link" href="/work/ofsaa-alm-basel/">Next: OFSAA ALM &amp; Basel deployment →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Ahmad Ebraheem</div>
+    <div class="foot-links">
+      <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:ebraheemsohail@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navMobilePanel = document.getElementById('navMobilePanel');
+  if (navToggle && navMobilePanel) {
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.classList.toggle('open');
+      navMobilePanel.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+    navMobilePanel.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        navMobilePanel.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>
+
+<div class="read-progress" aria-hidden="true"><span id="readProgressBar"></span></div>
+<script>
+  const progressBar = document.getElementById('readProgressBar');
+  const updateProgress = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    progressBar.style.transform = `scaleX(${max > 0 ? Math.min(doc.scrollTop / max, 1) : 0})`;
+  };
+  document.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+</script>
+
+<script data-goatcounter="https://ebraheem.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
