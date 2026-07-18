@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: OFSAA ALM &amp; Basel III deployment | Ahmad Ebraheem</title>
+<title>Case study: OFSAA ALM &amp; Basel III Deployment | Ahmad Ebraheem</title>
 <meta name="description" content="Deploying OFSAA ALM and Basel III Capital Adequacy Ratio modules for a bank — and cutting a 24-hour loans pipeline down to 10 minutes.">
 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ahmadebraheem.me/work/ofsaa-alm-basel/">
-<meta property="og:title" content="Case study: OFSAA ALM &amp; Basel III deployment">
+<meta property="og:title" content="Case study: OFSAA ALM &amp; Basel III Deployment">
 <meta property="og:description" content="Deploying OFSAA ALM and Basel III Capital Adequacy Ratio modules for a bank — and cutting a 24-hour loans pipeline down to 10 minutes.">
 <meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Case study: OFSAA ALM &amp; Basel III deployment">
+<meta name="twitter:title" content="Case study: OFSAA ALM &amp; Basel III Deployment">
 <meta name="twitter:description" content="Deploying OFSAA ALM and Basel III Capital Adequacy Ratio modules for a bank — and cutting a 24-hour loans pipeline down to 10 minutes.">
 <meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
@@ -57,7 +57,7 @@
 
     <div class="post-header">
       <span class="eyebrow log-date">Case study · Techlogix, financial services client</span>
-      <h1>OFSAA ALM &amp; Basel III deployment</h1>
+      <h1>OFSAA ALM &amp; Basel III Deployment</h1>
       <div class="post-meta">
         <span>Application Consultant</span>
         <span class="log-tag">Oracle · PL/SQL · ETL</span>
@@ -65,31 +65,33 @@
     </div>
 
     <div class="cs-stats">
-      <div class="cs-stat"><div class="n">10 min</div><div class="l">loans pipeline, from 24 hours</div></div>
-      <div class="cs-stat"><div class="n">$100K</div><div class="l">project managed end-to-end</div></div>
+      <div class="cs-stat"><div class="n">10 min</div><div class="l">loans pipeline, down from 24 hours</div></div>
       <div class="cs-stat"><div class="n">2</div><div class="l">regulatory modules deployed: ALM + Basel III CAR</div></div>
     </div>
 
     <div class="post-body">
       <h2>Context</h2>
-      <p>A bank needed Oracle Financial Services Analytical Applications (OFSAA) deployed for two regulatory workloads: Asset &amp; Liability Management and Basel III Capital Adequacy Ratio reporting. These are the numbers a regulator reads, which means "roughly right" is not a category that exists. I ran the roughly $100K implementation end-to-end as the primary client liaison.</p>
+      <p>A bank needed Oracle Financial Services Analytical Applications (OFSAA) deployed for two regulatory workloads: Asset and Liability Management and Basel III Capital Adequacy Ratio reporting. These are the numbers a regulator reads, which means "roughly right" is not a category that exists. I ran the roughly $100K implementation end to end as the primary client liaison.</p>
 
       <h2>The problem</h2>
-      <p>Two problems, really. The first was the deployment itself: OFSAA modules only produce correct regulatory output if the data feeding them is complete, reconciled, and on time. The second was inherited: the bank's existing Loans and Lines pipeline took 24 hours to run. When your inputs take a full day to land, every downstream regulatory calculation starts life a day late.</p>
+      <p>Two problems, really. The first was the deployment itself. OFSAA modules only produce correct regulatory output if the data feeding them is complete, reconciled, and on time. The second problem was inherited. The existing Loans and Lines pipeline took 24 hours to run. When your inputs take a full day to land, every downstream regulatory calculation starts life a day late.</p>
 
       <h2>What I built</h2>
       <ul>
         <li>Deployed and configured the OFSAA ALM and Basel III CAR modules, with custom reporting tailored to how the bank's risk team actually consumed the outputs.</li>
-        <li>Designed and automated the ETL workflows feeding them — extracting from Oracle 11g, Oracle 12c, and flat files into staging, replacing manual processing.</li>
-        <li>Wrote custom SQL and PL/SQL functions for requirements the packaged product didn't cover, keeping the data handling precise instead of approximated.</li>
+        <li>Designed and automated the ETL workflows feeding them, extracting from Oracle 11g, Oracle 12c, and flat files into staging and replacing manual processing.</li>
+        <li>Wrote custom SQL and PL/SQL functions for requirements the packaged product did not cover, keeping the data handling precise instead of approximated.</li>
         <li>Redesigned the Loans and Lines pipeline and tuned the high-volume SQL underneath it, taking execution time from 24 hours to 10 minutes.</li>
       </ul>
 
       <h2>What made it hard</h2>
-      <p>Regulatory data work punishes optimism. Every shortcut in an ETL job eventually surfaces as a number a risk officer can't explain. The 24-hour pipeline wasn't slow because of one bad query — it was slow because of years of accumulated assumptions, so the fix meant re-deriving what the pipeline was actually supposed to compute and rebuilding from that, not patching the symptoms. This project is also where I learned to treat the business question — what is this number for, who acts on it — as the first engineering requirement, a habit that has outlasted every tool in my stack.</p>
+      <p>Regulatory data work punishes optimism. Every shortcut in an ETL job eventually surfaces as a number a risk officer cannot explain.</p>
+      <p>The 24-hour pipeline was not slow because of one bad query. It was slow because of years of accumulated assumptions, so the fix meant re-deriving what the pipeline was actually supposed to compute and rebuilding from that, rather than patching the symptoms.</p>
+      <p>This project is also where I learned to treat the business question, what is this number for and who acts on it, as the first engineering requirement. That habit has outlasted every tool in my stack.</p>
 
       <h2>Outcome</h2>
-      <p>Both modules live in production, custom reporting in the hands of the risk team, and a core pipeline running 144x faster. The engagement also generated roughly 10% additional revenue within three months through follow-on consulting — the quiet metric that says the client trusted the work.</p>
+      <p>Both modules went live in production, custom reporting was delivered to the risk team, and a core pipeline ran 144x faster.</p>
+      <p>The engagement also generated roughly 10% additional revenue within three months through follow-on consulting. That is the quiet metric that says the client trusted the work.</p>
     </div>
 
     <div class="cs-next">

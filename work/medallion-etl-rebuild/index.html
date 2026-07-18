@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: Medallion ETL rebuild for FCR reporting | Ahmad Ebraheem</title>
+<title>Case study: Medallion ETL Rebuild for FCR Reporting | Ahmad Ebraheem</title>
 <meta name="description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ahmadebraheem.me/work/medallion-etl-rebuild/">
-<meta property="og:title" content="Case study: Medallion ETL rebuild for FCR reporting">
+<meta property="og:title" content="Case study: Medallion ETL Rebuild for FCR Reporting">
 <meta property="og:description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
 <meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Case study: Medallion ETL rebuild for FCR reporting">
+<meta name="twitter:title" content="Case study: Medallion ETL Rebuild for FCR Reporting">
 <meta name="twitter:description" content="How I rebuilt a slow, manual FCR reporting pipeline on a Bronze/Silver/Gold Medallion architecture with Snowflake — cutting delivery from a day to an hour.">
 <meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
@@ -57,7 +57,7 @@
 
     <div class="post-header">
       <span class="eyebrow log-date">Case study · Afiniti / AT&amp;T account</span>
-      <h1>Medallion ETL rebuild for FCR reporting</h1>
+      <h1>Medallion ETL Rebuild for FCR Reporting</h1>
       <div class="post-meta">
         <span>Senior Data Engineer</span>
         <span class="log-tag">Snowflake · Python · SQL</span>
@@ -65,32 +65,39 @@
     </div>
 
     <div class="cs-stats">
-      <div class="cs-stat"><div class="n">1 hr</div><div class="l">report delivery, from 1 day</div></div>
-      <div class="cs-stat"><div class="n">80–90%</div><div class="l">runtime cut on core SQL</div></div>
-      <div class="cs-stat"><div class="n">0</div><div class="l">manual steps left in the weekly cycle</div></div>
+      <div class="cs-stat"><div class="n">1 hour</div><div class="l">report delivery, down from 1 day</div></div>
+      <div class="cs-stat"><div class="n">80% to 90%</div><div class="l">runtime reduction on core SQL</div></div>
+      <div class="cs-stat"><div class="n">0</div><div class="l">manual steps left in the weekly reporting cycle</div></div>
     </div>
 
     <div class="post-body">
       <h2>Context</h2>
-      <p>Afiniti pairs contact-center callers with agents using AI, and gets paid on measured performance. That makes reporting existential: first-call resolution (FCR) numbers on the AT&amp;T account went to people making revenue decisions, on a daily and monthly cadence. The source data lived in Snowflake; the reporting around it had grown organically over years.</p>
+      <p>Afiniti pairs contact center callers with agents using AI and gets paid based on measured performance. That makes reporting especially important. First-call resolution (FCR) numbers for the AT&amp;T account were used in management decisions and needed to be available on both a daily and monthly basis.</p>
+      <p>The source data lived in Snowflake, but the reporting process had grown organically over several years.</p>
 
       <h2>The problem</h2>
-      <p>Pulling the data for a single reporting cycle took about a day, and parts of the weekly KPI reporting — churn, agent performance — were being assembled by hand by two people. Slow is survivable; untrustworthy isn't. When a pipeline failed, it failed silently, and the first person to find out was usually the one reading the report.</p>
+      <p>Pulling the data for a single reporting cycle took around a day. Parts of the weekly KPI reporting, including churn and agent performance, were also being assembled manually by two people.</p>
+      <p>Slow is manageable. Untrustworthy is not.</p>
+      <p>When something went wrong in the pipeline, it often failed silently. The first person to discover the problem was usually the person reading the report.</p>
 
       <h2>What I built</h2>
-      <p>I rebuilt the pipeline end-to-end on a Medallion architecture — Bronze, Silver, Gold — sourcing from Snowflake:</p>
-      <ul>
-        <li><strong>Bronze</strong> took raw extracts as-is, with schema applied and duplicates resolved. I added slowly changing dimension (SCD) tables to track agent attributes over time, because "which team was this agent on in March" turns out to matter a lot when revenue is performance-based.</li>
-        <li><strong>Silver</strong> is where the data earned trust: custom data-quality checks on every load, plus GDPR-compliant PII masking and anonymization so downstream consumers never touched raw personal data.</li>
-        <li><strong>Gold</strong> held the executive-facing aggregates — the FCR and KPI tables the reports actually read from.</li>
-      </ul>
-      <p>Everything wrote to centralized pipeline logging, so a failure announced itself with a timestamp and a stage name instead of a wrong number three days later. Alongside the rebuild I tuned the heaviest SQL, cutting runtimes on large-scale datasets by 80–90%.</p>
+      <p>I rebuilt the pipeline end to end using a Medallion architecture with Bronze, Silver, and Gold layers, sourcing the data from Snowflake.</p>
+      <p><strong>Bronze</strong> handled raw extracts as they came in, with the schema applied and duplicates resolved. I also added slowly changing dimension tables to track agent attributes over time. Knowing which team an agent belonged to in a specific month matters when revenue is tied to performance.</p>
+      <p><strong>Silver</strong> was where the data became trustworthy. I added custom data quality checks to every load, along with GDPR-compliant PII masking and anonymization. Downstream consumers could work with the data without accessing raw personal information.</p>
+      <p><strong>Gold</strong> contained the executive-facing aggregates, including the FCR and KPI tables used by the reporting layer.</p>
+      <p>I also centralized pipeline logging so failures became visible immediately, with a timestamp and stage name, instead of appearing as an incorrect number several days later. The summary was also pushed via email on every run.</p>
+      <p>Alongside the rebuild, I tuned the heaviest SQL queries and reduced runtimes on large datasets by 50% to 90%.</p>
 
       <h2>What made it hard</h2>
-      <p>The technical work was the smaller half. The existing reports were the source of truth for a large client relationship, so every layer of the new pipeline had to reconcile exactly against the old numbers before anything switched over. The data-quality checks I wrote for Silver surfaced more than five real data issues in the process — awkward conversations short-term, but each one strengthened the client's trust in the numbers long-term.</p>
+      <p>The technical work was only part of the challenge.</p>
+      <p>The existing reports were the accepted source of truth for a major client relationship. Before switching over, every layer of the new pipeline had to reconcile exactly with the existing numbers.</p>
+      <p>The data quality checks I added to the Silver layer uncovered more than five genuine data issues during the process. Those were not always easy conversations in the short term, but each issue that was found and fixed made the reporting more reliable and strengthened the client's trust in the numbers.</p>
 
       <h2>Outcome</h2>
-      <p>Report delivery went from a day to an hour. The two-person manual weekly KPI process disappeared entirely — fully automated across sites and BPOs. And because quality checks and logging were built in rather than bolted on, the pipeline kept earning trust after I stopped watching it, which is the only definition of "done" I accept for production data work.</p>
+      <p>Report delivery went from roughly a day to about an hour.</p>
+      <p>The two-person manual weekly KPI process was eliminated completely, with reporting automated across sites and BPOs.</p>
+      <p>More importantly, quality checks and logging were built into the pipeline from the start. The system could identify problems and make them visible without someone constantly watching it.</p>
+      <p>For me, that is the real definition of done for production data work. The pipeline should keep earning trust after you stop watching it.</p>
     </div>
 
     <div class="cs-next">

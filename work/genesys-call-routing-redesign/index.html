@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: Genesys warehouse redesign for AI call routing | Ahmad Ebraheem</title>
+<title>Case study: Genesys Infomart Warehouse Redesign for AI Call Routing | Ahmad Ebraheem</title>
 <meta name="description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ahmadebraheem.me/work/genesys-call-routing-redesign/">
-<meta property="og:title" content="Case study: Genesys warehouse redesign for AI call routing">
+<meta property="og:title" content="Case study: Genesys Infomart Warehouse Redesign for AI Call Routing">
 <meta property="og:description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
 <meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Case study: Genesys warehouse redesign for AI call routing">
+<meta name="twitter:title" content="Case study: Genesys Infomart Warehouse Redesign for AI Call Routing">
 <meta name="twitter:description" content="Redesigning O2's Genesys Infomart data warehouse into a unified calls feed for AI-based call routing — with zero disruption to client revenue.">
 <meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
 
@@ -57,7 +57,7 @@
 
     <div class="post-header">
       <span class="eyebrow log-date">Case study · Afiniti / O2 &amp; Virgin Media accounts</span>
-      <h1>Genesys warehouse redesign for AI call routing</h1>
+      <h1>Genesys Infomart Warehouse Redesign for AI Call Routing</h1>
       <div class="post-meta">
         <span>Data Analytics Engineer</span>
         <span class="log-tag">SQL · Data Warehousing · Python</span>
@@ -66,31 +66,34 @@
 
     <div class="cs-stats">
       <div class="cs-stat"><div class="n">100%</div><div class="l">client revenue preserved through cutover</div></div>
-      <div class="cs-stat"><div class="n">~80%</div><div class="l">monthly revenue protected on Virgin Media</div></div>
-      <div class="cs-stat"><div class="n">3 days</div><div class="l">of manual effort removed via automated alerts</div></div>
+      <div class="cs-stat"><div class="n">Live</div><div class="l">successful integration of Afiniti with Genesys Infomart</div></div>
     </div>
 
     <div class="post-body">
       <h2>Context</h2>
-      <p>O2's contact-center telemetry lived in a Genesys Infomart data warehouse — a sprawling star schema recording every call, queue, and agent interaction. Afiniti's AI routing sat downstream of it: the models needed a clean, reliable feed of call data to decide which agent should take which caller. The warehouse wasn't designed for that consumer.</p>
+      <p>O2's contact center upgraded to a Genesys Infomart data warehouse: a large star schema capturing calls, queues, agent interactions, and routing activity.</p>
+      <p>Afiniti's AI routing models depended on that data. The models needed a reliable feed of call information to determine which agent should handle each caller. The existing warehouse, however, had not been designed specifically for that use case.</p>
 
       <h2>The problem</h2>
-      <p>The routing feed was assembled from many star schema tables, each with its own quirks, timing, and failure modes. Every fragile join was a way for the feed to silently drift from reality — and because Afiniti's revenue on the account was tied to measured routing performance, a broken feed didn't just mean a bad dashboard. It meant real money, for both sides.</p>
+      <p>The routing feed was built by joining data across multiple tables in the Genesys star schema, each with its own timing characteristics, quirks, and failure modes.</p>
+      <p>Every fragile join created another opportunity for the feed to silently drift from reality. Since Afiniti's revenue was tied to measured routing performance, this was more than a data-quality problem. A broken feed could have a direct financial impact.</p>
 
       <h2>What I built</h2>
-      <p>I redesigned the warehouse's consumption layer, consolidating the star schema tables into a single unified calls feed purpose-built for the routing models. One feed, one contract, one place to enforce quality. The redesign had a hard constraint: the routing engine consuming it could never notice the switch. We reconciled the new feed against the old assembly line-by-line before cutover, and client revenue came through at 100%.</p>
-      <p>The same period included two adjacent builds on sister accounts:</p>
-      <ul>
-        <li>Leading the integration of Cisco PQ-based routing with Afiniti's systems on Virgin Media — an integration that, had it gone wrong, put roughly 80% of the account's monthly revenue at risk.</li>
-        <li>An invoice reconciliation framework for Virgin Media, so the numbers on the invoice could be traced to the numbers in the warehouse — accurate financial documentation, paid on time.</li>
-        <li>Automated BI dashboards (Python + Apache Superset) tracking FCR, AHT, conversion, churn, and agent performance, plus automated email alerts that delivered KPI movements to senior stakeholders — removing about three days of manual effort across three team members.</li>
-      </ul>
+      <p>I redesigned the consumption layer by consolidating the underlying Genesys star-schema tables into a single, unified calls feed built specifically for the routing models.</p>
+      <p><strong>One feed. One contract. One place to enforce quality.</strong></p>
+      <p>The key constraint was that the routing engine could not notice the change. Before cutover, I reconciled the new feed against the existing process line by line and validated the results through automated checks.</p>
+      <p>The transition completed with <strong>100% of client revenue preserved</strong>.</p>
+      <p>During the same period, I also led the integration of Cisco PQ-based routing with Afiniti's systems for Virgin Media. The account's monthly revenue was heavily dependent on the integration working correctly.</p>
 
       <h2>What made it hard</h2>
-      <p>Nothing about the schema was the hard part. The hard part was that the system had to be rebuilt while it was running, under a revenue guarantee, for a client who would reasonably interpret any anomaly as a billing question. That forces a certain engineering style: reconcile everything, automate the checks, and never make the client discover a problem before you do.</p>
+      <p>The work required understanding and translating a complex Genesys data model into a structure that could integrate with Afiniti's existing design.</p>
+      <p>At the time, LLMs were still highly experimental and were not a practical substitute for the engineering work involved. I had to work through extensive Genesys documentation, map the underlying data model, understand the relationships between calls, queues, agents, and routing events, and determine how that model could reliably feed Afiniti's systems.</p>
+      <p>The other challenge was rebuilding a live system while operating under a revenue guarantee. Any unexplained anomaly could quickly become a client or billing concern.</p>
+      <p>That meant the engineering approach had to be disciplined: reconcile everything, automate the checks, and make sure the team found problems before the client did.</p>
 
       <h2>Outcome</h2>
-      <p>A single, trustworthy calls feed powering AI routing on a major telecom account, revenue fully preserved through the transition, and a reporting layer that pushed insights to stakeholders instead of waiting to be asked. The unified-feed pattern outlived the project — it's simply a better shape for any warehouse that feeds a model.</p>
+      <p>The result was a single, reliable calls feed powering AI routing on a major telecom account, with revenue fully preserved through the transition.</p>
+      <p>The unified-feed pattern ultimately outlasted the project itself. It provided a better way to shape complex warehouse data for downstream models and became the <strong>template for future deployments on similar platforms</strong>.</p>
     </div>
 
     <div class="cs-next">

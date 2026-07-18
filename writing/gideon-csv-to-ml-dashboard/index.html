@@ -10,13 +10,15 @@
 <meta property="og:url" content="https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/">
 <meta property="og:title" content="Gideon: Drop a CSV, Get a Live ML Dashboard">
 <meta property="og:description" content="I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.">
-<meta property="og:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+<meta property="og:image" content="https://ahmadebraheem.me/images/gideon-cover.jpg">
+<meta property="og:image:width" content="1537">
+<meta property="og:image:height" content="1023">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/">
 <meta name="twitter:title" content="Gideon: Drop a CSV, Get a Live ML Dashboard">
 <meta name="twitter:description" content="I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.">
-<meta name="twitter:image" content="https://ahmadebraheem.me/images/og-image.jpg">
+<meta name="twitter:image" content="https://ahmadebraheem.me/images/gideon-cover.jpg">
 
 <meta name="theme-color" content="#171717">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,10 +37,10 @@
   "@type": "BlogPosting",
   "headline": "Gideon: Drop a CSV, Get a Live ML Dashboard",
   "description": "I built a local, zero-cloud ML pipeline where eight single-purpose agents take any CSV from raw file to deployed model and live dashboard — nobody touches any code.",
-  "image": "https://ahmadebraheem.me/images/og-image.jpg",
+  "image": "https://ahmadebraheem.me/images/gideon-cover.jpg",
   "url": "https://ahmadebraheem.me/writing/gideon-csv-to-ml-dashboard/",
   "datePublished": "2026-07-17",
-  "dateModified": "2026-07-17",
+  "dateModified": "2026-07-18",
   "author": {
     "@type": "Person",
     "name": "Ahmad Ebraheem",
@@ -84,54 +86,88 @@
       </div>
     </div>
 
-    <div class="post-body">
-      <p>Most ML demos have a dirty secret: someone is babysitting them. There's a notebook that has to be re-run, a cell that has to be edited when the data changes, a person quietly regenerating the dashboard before the meeting. I wanted to know how far I could push the opposite: drop a file in a folder, and everything else — cleaning, feature engineering, training, evaluation, deployment, dashboard — happens without anyone touching code.</p>
+    <div class="photo-frame post-cover" style="aspect-ratio:1537/1023;">
+      <img src="../../images/gideon-cover.webp" width="1537" height="1023" alt="Gideon: drop a CSV, get a live ML dashboard — an automated, zero-cloud ML pipeline with eight agents from ingestor to monitor">
+    </div>
 
-      <p>That experiment became <a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">Gideon</a>: a local, zero-cloud, zero-API automated ML pipeline. Drop a CSV (or JSON, or Parquet) into <code>inbox/</code>, and Gideon takes it from raw file to a deployed XGBoost model with a live Streamlit dashboard. Drop a newer file, and the whole pipeline reruns and the dashboard updates. Everything runs on your machine — no network calls, no external services, no keys.</p>
+    <div class="post-body">
+      <p>Most ML demos have a dirty secret. Someone is babysitting them.</p>
+      <p>There's a notebook that has to be rerun, a parameter that gets tweaked when the data changes, or someone quietly refreshing the dashboard before the meeting.</p>
+      <p>I wanted to see how far I could push the opposite. What if you could drop a dataset into a folder and walk away? The pipeline should clean the data, engineer features, train a model, evaluate it, deploy it, and update a dashboard without anyone touching the code.</p>
+      <p>That experiment became <strong><a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">Gideon</a></strong>.</p>
+      <p>It's a local, zero-cloud, zero-API automated ML pipeline. Drop a CSV, JSON, or Parquet file into <code>inbox/</code>, and Gideon takes it from raw data to a deployed XGBoost model with a live Streamlit dashboard. Drop in a newer version later and the whole pipeline runs again automatically.</p>
+      <p>Everything runs locally. No network calls. No external services. No API keys.</p>
 
       <h2>Eight agents, one rule</h2>
-      <p>The interesting part isn't the ML. It's the architecture, and it comes straight from my day job building ETL pipelines. Gideon is eight specialist agents, each owning exactly one task:</p>
+      <p>The interesting part isn't the ML itself. It's the architecture.</p>
+      <p>The design comes straight from the ETL systems I've built professionally. Gideon consists of eight specialist agents, each responsible for exactly one job.</p>
 
       <pre><code>ingestor → cleaner → feature_eng → trainer →
 evaluator → deployer → dashboard_gen → monitor</code></pre>
 
-      <p>The rule that makes it work: <strong>one agent, one input, one output — no shared in-memory state.</strong> Agents communicate only by reading and writing files in <code>artifacts/</code>. The ingestor writes <code>raw.parquet</code>; the cleaner reads it and writes <code>cleaned.parquet</code> plus a cleaning report; the trainer writes <code>model.joblib</code>; and so on down the line. A boss orchestrates the sequence and writes a run manifest, and a watcher (built on <code>watchdog</code>) triggers the boss when a new file lands.</p>
+      <p>Each agent follows one simple rule: one input, one output.</p>
+      <p>There is no shared in-memory state. Agents communicate only through files stored in <code>artifacts/</code>.</p>
+      <p>The ingestor writes <code>raw.parquet</code>. The cleaner reads that file and produces <code>cleaned.parquet</code> plus a cleaning report. The trainer writes <code>model.joblib</code>. Each stage reads the output from the previous one and produces the next artifact.</p>
+      <p>A boss orchestrator runs the agents in sequence and writes a run manifest, while a filesystem watcher built with <code>watchdog</code> starts the whole process whenever a new dataset appears.</p>
+      <p>If you've read my <a href="/work/medallion-etl-rebuild/">Medallion pipeline case study</a>, you'll probably notice the influence. This is Bronze, Silver, and Gold thinking applied to an ML pipeline.</p>
+      <p>Using files as contracts gives you the same benefits that layered data warehouses do. Every stage is replayable. Every intermediate result is easy to inspect. And if something breaks, you can run a single agent against the exact artifact that caused the failure.</p>
+      <p>Debugging becomes much simpler when the state lives in files instead of memory.</p>
 
-      <p>If you've read my <a href="/work/medallion-etl-rebuild/">Medallion pipeline case study</a>, you'll recognize the instinct — this is Bronze/Silver/Gold thinking applied to an ML system. Files as contracts buy you the same things layers buy you in a warehouse: every stage is replayable, every intermediate result is inspectable, and when something breaks you can run one agent standalone (<code>python -m agents.cleaner</code>) against the exact artifact that made it fail. Debugging a pipeline where state lives in files is a search; debugging one where state lives in memory is an archaeology dig.</p>
-
-      <h2>Making "automatic" honest</h2>
-      <p>"Nobody touches any code" is only true if the pipeline can make its own decisions about an arbitrary dataset. Gideon handles that with a few deliberately boring heuristics:</p>
+      <h2>Making "automatic" actually automatic</h2>
+      <p>Saying "nobody touches any code" only works if the pipeline can make reasonable decisions about an unfamiliar dataset.</p>
+      <p>Gideon uses a handful of deliberately simple heuristics.</p>
       <ul>
-        <li><strong>Target detection</strong> — use a well-known column name (<code>target</code>, <code>label</code>, <code>y</code>, <code>class</code>, <code>outcome</code>, <code>result</code>) if one exists, otherwise the last column.</li>
-        <li><strong>Task detection</strong> — non-numeric or few integer-like values means classification; otherwise regression.</li>
-        <li><strong>Feature engineering</strong> — datetime expansion, one-hot encoding for low-cardinality categoricals, frequency encoding for high-cardinality ones.</li>
-        <li><strong>Modeling</strong> — XGBoost with sensible defaults, no tuning theatre.</li>
+        <li><strong>Target detection:</strong> Look for common names like <code>target</code>, <code>label</code>, <code>class</code>, <code>outcome</code>, <code>result</code>, or <code>y</code>. If none exist, use the last column.</li>
+        <li><strong>Task detection:</strong> Treat categorical or low-cardinality integer targets as classification. Everything else becomes regression.</li>
+        <li><strong>Feature engineering:</strong> Expand datetime columns, one-hot encode low-cardinality categoricals, and frequency encode high-cardinality ones.</li>
+        <li><strong>Modeling:</strong> Train an XGBoost model with sensible default settings.</li>
       </ul>
-      <p>None of these decisions is clever, and that's the point. Sensible defaults that are right 90% of the time beat configurable options that require a human 100% of the time — a human in the loop was the exact thing I was trying to remove.</p>
+      <p>None of these ideas are groundbreaking.</p>
+      <p>That was intentional.</p>
+      <p>Defaults that work well most of the time are far more useful here than dozens of configuration options. The whole goal was to remove the human from the loop.</p>
 
-      <h2>The unglamorous parts are the product</h2>
-      <p>What I ended up most proud of isn't visible in a screenshot. It's the failure modes that don't happen:</p>
+      <h2>The boring parts matter most</h2>
+      <p>The part I'm happiest with isn't something you notice in a screenshot.</p>
+      <p>It's all the things that <em>don't</em> go wrong.</p>
+      <p>Artifacts are written atomically. Every file is written to a temporary location first and then renamed, so the dashboard never reads a half-written model or dataset.</p>
+      <p>Runs are processed one at a time. If another CSV arrives while one is already running, it waits its turn instead of colliding with the current run.</p>
+      <p>The watcher compares content hashes, so saving the exact same file twice doesn't trigger another training run.</p>
+      <p>If you empty the inbox, the dashboard resets to a clean waiting state instead of showing stale results from data that no longer exists.</p>
+      <p>These are the kinds of lessons production data engineering teaches you, usually after you've been burned once or twice.</p>
+      <p>Race conditions, duplicate triggers, and stale state are exactly how automated systems lose people's trust. Once someone spots one incorrect number, they start double-checking everything manually.</p>
+      <p>The plumbing matters just as much as the model.</p>
+
+      <h2>Letting the dashboard tell the story</h2>
+      <p>The Streamlit dashboard adapts itself to whatever dataset the pipeline produces.</p>
+      <p>If it finds a date column, it automatically generates month-over-month and year-over-year trends, highlights the best and worst periods, and surfaces interesting correlations in plain English.</p>
+      <p>For regression models, it includes a forecasting tab with a configurable prediction horizon and a confidence band based on ±1.5×RMSE.</p>
+      <p>Predictions that differ from the actual value by more than two standard deviations are highlighted as potential anomalies.</p>
+      <p>There's also a what-if analysis tab.</p>
+      <p>For the most influential features, the dashboard creates interactive sliders. As you move them, it runs <code>model.predict()</code> in real time and shows how the prediction changes.</p>
+      <p>That's usually the feature that resonates most with non-technical users.</p>
+      <p>Performance metrics are useful, but watching a prediction change as you move a slider makes the model feel tangible.</p>
+
+      <h2>What Gideon isn't</h2>
+      <p>A carefully tuned model built by someone who understands the dataset will almost always outperform the default pipeline. And heuristics that work most of the time will occasionally make the wrong call.</p>
+      <p>That's the trade-off you make for zero configuration.</p>
+      <p>For me, that's not really the point.</p>
+      <p>What Gideon demonstrates is something I've learned from building production data systems. The reliability patterns that make warehouse pipelines dependable also make ML pipelines dependable.</p>
       <ul>
-        <li>Artifacts are written <strong>atomically</strong> — temp file, then rename — so the dashboard can never read a half-written file. There is no window where a chart renders from a model that's mid-save.</li>
-        <li>Runs are <strong>serialised</strong>. Drop a second CSV while the first is processing and it queues; it doesn't corrupt the run in flight.</li>
-        <li>The watcher <strong>de-duplicates by content hash</strong>, so re-saving the same file doesn't burn a pointless retrain. Only genuinely new data triggers the pipeline.</li>
-        <li>Emptying the inbox <strong>resets the dashboard</strong> to a clean waiting state instead of showing stale results from data that no longer exists.</li>
+        <li>Single-responsibility stages.</li>
+        <li>File-based contracts.</li>
+        <li>Atomic writes.</li>
+        <li>Idempotent triggers.</li>
       </ul>
-      <p>Every one of those is a lesson production data engineering teaches you eventually, usually at 2 a.m. Race conditions, duplicate triggers, and stale state are exactly how "automated" systems lose people's trust — and once a stakeholder catches one wrong number, they re-check everything by hand forever after. The plumbing is the product.</p>
-
-      <h2>The dashboard does the talking</h2>
-      <p>The Streamlit dashboard renders whatever the pipeline produced, and it adapts to the dataset. A dataset with a date column gets month-over-month and year-over-year trends, best and worst months, and auto-discovered correlations described in plain language. A regression target gets a forecast tab with a configurable horizon and a ±1.5×RMSE confidence band. Predictions that deviate more than 2σ from actuals get flagged red as anomalies. And a what-if tab builds one slider per influential feature and runs a live <code>model.predict()</code> as you move them, showing the delta against the baseline.</p>
-
-      <p>That last tab is the one that lands with non-technical people. Metrics cards tell an analyst the model is fine; dragging a slider and watching the prediction move is what makes a stakeholder <em>believe</em> the model is real.</p>
-
-      <h2>Where it stops</h2>
-      <p>Gideon is not AutoML and doesn't want to be. It won't beat a tuned model built by someone who sat with the data, and heuristics that are right most of the time are still wrong sometimes — that's the tax on "zero config". What it demonstrates is the part I care about professionally: that the reliability patterns from warehouse engineering — single-responsibility stages, file contracts, atomic writes, idempotent triggers — are exactly what most ML tooling is missing between the notebook and production.</p>
-
-      <p>The code is on <a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">GitHub</a>. Clone it, run <code>uv sync</code>, start the watcher, and drop a CSV in. Nobody touches any code — that was the whole idea.</p>
+      <p>Those ideas are common in data engineering, but they're still surprisingly rare in ML projects that sit somewhere between a notebook and production.</p>
+      <p>It's also worth mentioning that Gideon is still a work in progress. I built the entire project as a vibe coding experiment to see how far I could push Anthropic's Sonnet 5 as the primary developer. Rather than writing every line myself, I focused on designing the architecture, defining the requirements, reviewing the implementation, and iterating on the system while Sonnet generated the code.</p>
+      <p>The goal wasn't to build the next AutoML platform. It was to answer a simple question: <em>How much of a production-style ML pipeline can be built when AI does most of the implementation?</em></p>
+      <p>The answer surprised me. While there's still plenty to improve, the project has already reached the point where it's genuinely useful. It's a solid foundation, and there's a long roadmap ahead.</p>
+      <p>The code is on <a href="https://github.com/ahmadebraheem/Gideon" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+      <p>Clone it, run <code>uv sync</code>, start the watcher, and drop a dataset into <code>inbox/</code>.</p>
+      <p>Everything else should just happen.</p>
     </div>
 
     <div class="comments">
-      <h2>Comments</h2>
       <script src="https://giscus.app/client.js"
         data-repo="ahmadebraheem/ahmadebraheem.github.io"
         data-repo-id="R_kgDOTNC9Wg"

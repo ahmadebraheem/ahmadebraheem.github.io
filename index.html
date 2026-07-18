@@ -98,7 +98,7 @@
   <div class="hero-glow"></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="eyebrow">Data Engineer · Berlin</div>
+      <div class="eyebrow">Senior Data Engineer · Berlin</div>
       <h1>I build data systems that <span class="accent">survive contact</span> with production.</h1>
       <p class="lede">Six years turning messy pipelines into audit-ready, executive-facing systems across fintech, telecom, and financial services. Currently based in Berlin.</p>
       <div class="hero-actions">
@@ -299,7 +299,7 @@
 
 <footer>
   <div class="wrap">
-    <div>© 2026</div>
+    <div>© 2026 Ahmad Ebraheem</div>
     <div class="foot-links">
       <a href="https://linkedin.com/in/ahmadebraheem" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://github.com/ahmadebraheem" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -313,10 +313,10 @@
   const stages = document.querySelectorAll('.stage');
   const detail = document.getElementById('pipelineDetail');
   const stageNotes = [
-    "Extracts land exactly as the source produced them — Snowflake exports, Oracle dumps, flat files. No cleanup yet, on purpose: an untouched copy means any downstream number can be replayed and audited back to its origin.",
+    "The extracts land exactly as they came from the source: Snowflake exports, Oracle dumps, and flat files. Nothing is cleaned up yet, and that is intentional. Keeping the raw data untouched means any number downstream can be traced back to where it originally came from and reproduced when needed.",
     "Schema gets enforced and duplicates resolved. This is also where I keep slowly changing dimensions — tracking how agent and account attributes evolve over time, because \u201cwhat was true in March\u201d matters when revenue is performance-based.",
-    "Where the data earns trust. Custom quality checks run on every load, GDPR-compliant PII masking is applied, and entities get joined into shapes analysts can actually use. Checks I wrote here have caught real data issues before any client saw them.",
-    "Executive-facing aggregates: FCR, churn, agent KPIs. Small, fast tables that reports read directly — delivered in an hour instead of a day, with centralized logging so a failure announces itself before the report does."
+    "This is where the data earns trust. Custom quality checks run on every load, GDPR-compliant PII masking is applied, and the data is joined into shapes that analysts can actually use. The checks I wrote here have caught real data issues before any client ever saw them.",
+    "Executive-facing aggregates covering FCR, churn, and agent KPIs. Small, fast tables that reports can read directly. Reports are delivered in an hour instead of a day, with centralized logging so a failure announces itself before the report does."
   ];
   const setStage = (idx) => {
     buttons.forEach(b => b.classList.toggle('active', b.dataset.stage === idx));
