@@ -314,7 +314,7 @@
   const detail = document.getElementById('pipelineDetail');
   const stageNotes = [
     "The extracts land exactly as they came from the source: Snowflake exports, Oracle dumps, and flat files. Nothing is cleaned up yet, and that is intentional. Keeping the raw data untouched means any number downstream can be traced back to where it originally came from and reproduced when needed.",
-    "Schema gets enforced and duplicates resolved. This is also where I keep slowly changing dimensions — tracking how agent and account attributes evolve over time, because \u201cwhat was true in March\u201d matters when revenue is performance-based.",
+    "The schema is enforced and duplicates are resolved. This is also where the slowly changing dimension tables live, tracking how agent and account attributes evolve over time. Knowing what was true in a specific month matters when revenue is tied to performance.",
     "This is where the data earns trust. Custom quality checks run on every load, GDPR-compliant PII masking is applied, and the data is joined into shapes that analysts can actually use. The checks I wrote here have caught real data issues before any client ever saw them.",
     "Executive-facing aggregates covering FCR, churn, and agent KPIs. Small, fast tables that reports can read directly. Reports are delivered in an hour instead of a day, with centralized logging so a failure announces itself before the report does."
   ];
