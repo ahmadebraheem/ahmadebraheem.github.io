@@ -31,6 +31,9 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="canonical" href="https://ahmadebraheem.me/">
+<script>
+(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+</script>
 <link rel="stylesheet" href="styles.css">
 
 <script type="application/ld+json">
@@ -77,15 +80,21 @@
 <nav>
   <div class="wrap">
     <a href="/" class="logo"><img src="images/logo.svg" alt="Ahmad Ebraheem logo" class="logo-mark">Ahmad Ebraheem</a>
-    <div class="nav-links">
-      <a href="#work">Work</a>
-      <a href="#writing">Writing</a>
-      <a href="#about">About</a>
-      <a href="#contact" class="nav-cta">Get in touch</a>
+    <div class="nav-actions">
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#writing">Writing</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="nav-cta">Get in touch</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navMobilePanel">
-      <span></span><span></span><span></span>
-    </button>
   </div>
   <div class="nav-mobile-panel" id="navMobilePanel">
     <a href="#work">Work</a>
@@ -364,5 +373,6 @@
 
 <script data-goatcounter="https://ebraheem.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script src="/theme.js" defer></script>
 </body>
 </html>
