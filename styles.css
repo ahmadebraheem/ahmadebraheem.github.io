@@ -265,19 +265,17 @@
     padding: 28px 0;
   }
   .logos .wrap{
-    display:flex; align-items:center; gap:48px;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display:flex; align-items:center; gap:32px;
   }
   .logos .label{ font-size:13px; color: var(--grey-dim); font-family:'JetBrains Mono'; white-space:nowrap;}
-  .logo-row{ display:flex; gap:40px; flex-wrap:wrap; }
-  .logo-row span{
-    font-family:'Space Grotesk'; font-weight:500; font-size:15px;
-    color: var(--grey); letter-spacing: 0.01em;
-    transition: color .2s ease;
+  .marquee-clients{ flex:1; min-width:0; margin-top:0; padding:6px 0; border:none; }
+  .marquee-clients .marquee-track{ animation-duration: 32s; animation-direction: reverse; }
+  .marquee-clients .marquee-group{ gap: 64px; padding-right: 64px; }
+  .tool-wordmark .tool-name{ font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  @media (max-width: 760px){
+    .logos .wrap{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .marquee-clients{ width:100%; }
   }
-  .logo-row span:hover{ color: var(--white); }
-
   /* SECTION HEADER */
   .section{ padding: 120px 0; }
   .section-head{ margin-bottom: 56px; max-width: 640px; }
