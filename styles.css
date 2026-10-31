@@ -267,14 +267,15 @@
   .logos .wrap{
     display:flex; align-items:center; gap:32px;
   }
-  .logos .label{ font-size:13px; color: var(--grey-dim); font-family:'JetBrains Mono'; white-space:nowrap;}
-  .marquee-clients{ flex:1; min-width:0; margin-top:0; padding:6px 0; border:none; }
-  .marquee-clients .marquee-track{ animation-duration: 32s; animation-direction: reverse; }
-  .marquee-clients .marquee-group{ gap: 64px; padding-right: 64px; }
+  .logos .label{ font-size:13px; line-height:1; color: var(--grey-dim); font-family:'JetBrains Mono'; white-space:nowrap;}
+  .logos .marquee-clients{ flex:1; min-width:0; margin:0; padding:0; border:none; }
+  .logos .marquee-clients .marquee-track{ align-items:center; animation-duration: 32s; animation-direction: reverse; }
+  .logos .marquee-clients .marquee-group{ gap: 64px; padding-right: 64px; }
+  .logos .marquee-clients .tool{ line-height:1; }
   .tool-wordmark .tool-name{ font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
   @media (max-width: 760px){
     .logos .wrap{ flex-direction:column; align-items:flex-start; gap:12px; }
-    .marquee-clients{ width:100%; }
+    .logos .marquee-clients{ width:100%; }
   }
   /* SECTION HEADER */
   .section{ padding: 120px 0; }
