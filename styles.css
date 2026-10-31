@@ -259,13 +259,11 @@
   }
 
   /* LOGO STRIP */
-  .logos{
+  .logos .logos-strip{
+    display:flex; align-items:center; gap:32px;
+    padding: 22px 0;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    padding: 28px 0;
-  }
-  .logos .wrap{
-    display:flex; align-items:center; gap:32px;
   }
   .logos .label{ font-size:13px; line-height:1; color: var(--grey-dim); font-family:'JetBrains Mono'; white-space:nowrap;}
   .logos .marquee-clients{ flex:1; min-width:0; margin:0; padding:0; border:none; }
@@ -274,7 +272,7 @@
   .logos .marquee-clients .tool{ line-height:1; }
   .tool-wordmark .tool-name{ font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
   @media (max-width: 760px){
-    .logos .wrap{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .logos .logos-strip{ flex-direction:column; align-items:flex-start; gap:12px; }
     .logos .marquee-clients{ width:100%; }
   }
   /* SECTION HEADER */
